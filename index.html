@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>TRANSFORM OS</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
@@ -14,14 +14,18 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
         
-        * { box-sizing: border-box; margin: 0; padding: 0; }
+        * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
         
-        body {
+        html, body {
             font-family: 'Inter', sans-serif;
             background: #050505;
             color: #fff;
             overflow: hidden;
             margin: 0;
+            height: 100%;
+            width: 100%;
+            position: fixed;
+            touch-action: manipulation;
         }
         
         #bg-canvas {
@@ -38,12 +42,14 @@
             position: relative;
             z-index: 1;
             height: 100vh;
+            height: 100dvh; /* Dynamic viewport height for mobile */
             width: 100vw;
         }
         
         .glass {
             background: rgba(20, 20, 20, 0.7);
             backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
             border: 1px solid rgba(255, 255, 255, 0.1);
         }
         
@@ -89,27 +95,39 @@
             40% { transform: scale(1); }
         }
         
-        .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+        .custom-scrollbar::-webkit-scrollbar { width: 4px; }
         .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
         .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); border-radius: 3px; }
+        
+        /* Mobile-optimized hover effects */
+        @media (hover: hover) {
+            .hover-lift:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 20px 40px -15px rgba(0, 240, 255, 0.3);
+            }
+        }
         
         .hover-lift {
             transition: all 0.3s;
         }
         
-        .hover-lift:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 20px 40px -15px rgba(0, 240, 255, 0.3);
+        @media (hover: none) {
+            .hover-lift:active {
+                transform: scale(0.98);
+                opacity: 0.9;
+            }
         }
         
         input, select, textarea {
             background: rgba(0, 0, 0, 0.5);
             border: 1px solid rgba(255, 255, 255, 0.2);
             color: white;
-            padding: 12px;
+            padding: 14px; /* Larger touch targets */
             border-radius: 12px;
             width: 100%;
             transition: all 0.3s;
+            font-size: 16px; /* Prevent zoom on iOS */
+            min-height: 48px; /* Minimum touch target size */
         }
         
         input:focus, select:focus, textarea:focus {
@@ -121,17 +139,29 @@
         .btn-primary {
             background: linear-gradient(135deg, #00F0FF 0%, #B829F7 100%);
             color: white;
-            padding: 12px 24px;
+            padding: 14px 24px;
             border-radius: 12px;
             font-weight: bold;
             border: none;
             cursor: pointer;
             transition: all 0.3s;
+            min-height: 48px; /* Touch target */
+            font-size: 16px;
+            touch-action: manipulation;
         }
         
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 30px -10px rgba(0, 240, 255, 0.5);
+        @media (hover: hover) {
+            .btn-primary:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 10px 30px -10px rgba(0, 240, 255, 0.5);
+            }
+        }
+        
+        @media (hover: none) {
+            .btn-primary:active {
+                transform: scale(0.96);
+                opacity: 0.9;
+            }
         }
         
         .sidebar-item {
@@ -143,17 +173,41 @@
             gap: 12px;
             width: 100%;
             color: #9CA3AF;
+            min-height: 48px;
         }
         
-        .sidebar-item:hover {
-            background: rgba(255, 255, 255, 0.05);
-            color: white;
+        @media (hover: hover) {
+            .sidebar-item:hover {
+                background: rgba(255, 255, 255, 0.05);
+                color: white;
+            }
+        }
+        
+        @media (hover: none) {
+            .sidebar-item:active {
+                background: rgba(255, 255, 255, 0.1);
+                color: white;
+            }
         }
         
         .sidebar-item.active {
             background: linear-gradient(90deg, rgba(0, 240, 255, 0.2) 0%, transparent 100%);
             color: #00F0FF;
             border-left: 3px solid #00F0FF;
+        }
+        
+        /* Mobile bottom nav adjustments */
+        @media (max-width: 768px) {
+            .sidebar-item {
+                padding: 12px 8px;
+                flex-direction: column;
+                gap: 4px;
+                font-size: 11px;
+            }
+            
+            .sidebar-item span:first-child {
+                font-size: 20px;
+            }
         }
         
         .medal {
@@ -167,8 +221,18 @@
             transition: all 0.3s;
         }
         
-        .medal:hover {
-            transform: scale(1.2) rotate(10deg);
+        @media (max-width: 640px) {
+            .medal {
+                width: 48px;
+                height: 48px;
+                font-size: 24px;
+            }
+        }
+        
+        @media (hover: hover) {
+            .medal:hover {
+                transform: scale(1.2) rotate(10deg);
+            }
         }
         
         .medal.locked {
@@ -194,10 +258,20 @@
             border-radius: 12px;
             transition: all 0.3s;
             width: 100%;
+            min-height: 48px;
         }
         
-        .logout-btn:hover {
-            background: rgba(239, 68, 68, 0.1);
+        @media (hover: hover) {
+            .logout-btn:hover {
+                background: rgba(239, 68, 68, 0.1);
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .logout-btn {
+                padding: 12px;
+                justify-content: center;
+            }
         }
         
         .celebration {
@@ -209,6 +283,7 @@
             z-index: 50;
             background: rgba(0,0,0,0.8);
             animation: fadeIn 0.5s;
+            padding: 20px;
         }
         
         .thinking-box {
@@ -220,6 +295,36 @@
             font-size: 0.85rem;
             color: #00F0FF;
             font-family: monospace;
+            overflow-x: auto;
+            max-width: 100%;
+        }
+        
+        /* Prevent text selection on UI elements for better mobile experience */
+        .no-select {
+            -webkit-user-select: none;
+            user-select: none;
+        }
+        
+        /* Safe area insets for notched phones */
+        @supports (padding: max(0px)) {
+            .safe-area-bottom {
+                padding-bottom: max(16px, env(safe-area-inset-bottom));
+            }
+            
+            .safe-area-top {
+                padding-top: max(16px, env(safe-area-inset-top));
+            }
+        }
+        
+        /* Landscape mode optimizations */
+        @media (max-height: 500px) and (orientation: landscape) {
+            .landscape-hide {
+                display: none;
+            }
+            
+            .landscape-compact {
+                padding: 8px;
+            }
         }
     </style>
 </head>
@@ -258,7 +363,7 @@
             const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
             
             renderer.setSize(window.innerWidth, window.innerHeight);
-            renderer.setPixelRatio(window.devicePixelRatio);
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2)); // Limit pixel ratio for mobile performance
             
             // Create particles
             const particlesGeometry = new THREE.BufferGeometry();
@@ -319,18 +424,33 @@
             
             camera.position.z = 5;
             
-            // Mouse tracking
+            // Mouse/Touch tracking
             let mouseX = 0;
             let mouseY = 0;
+            let isTouch = false;
+            
+            const handleMove = (x, y) => {
+                mouseX = (x / window.innerWidth) * 2 - 1;
+                mouseY = -(y / window.innerHeight) * 2 + 1;
+            };
             
             document.addEventListener('mousemove', (e) => {
-                mouseX = (e.clientX / window.innerWidth) * 2 - 1;
-                mouseY = -(e.clientY / window.innerHeight) * 2 + 1;
+                if (!isTouch) handleMove(e.clientX, e.clientY);
             });
             
-            // Animation loop
+            document.addEventListener('touchmove', (e) => {
+                isTouch = true;
+                if (e.touches.length > 0) {
+                    handleMove(e.touches[0].clientX, e.touches[0].clientY);
+                }
+            }, { passive: true });
+            
+            document.addEventListener('touchstart', () => { isTouch = true; }, { passive: true });
+            
+            // Animation loop with visibility check for battery saving
+            let animationId;
             const animate = () => {
-                requestAnimationFrame(animate);
+                animationId = requestAnimationFrame(animate);
                 
                 particlesMesh.rotation.y += 0.001;
                 particlesMesh.rotation.x += 0.0005;
@@ -339,7 +459,6 @@
                     shape.mesh.rotation.x += shape.rotSpeed.x;
                     shape.mesh.rotation.y += shape.rotSpeed.y;
                     
-                    // Mouse interaction
                     shape.mesh.position.x += (mouseX * 2 - shape.mesh.position.x) * 0.01;
                     shape.mesh.position.y += (mouseY * 2 - shape.mesh.position.y) * 0.01;
                 });
@@ -349,7 +468,15 @@
             
             animate();
             
-            // Handle resize
+            // Pause when tab hidden to save battery on mobile
+            document.addEventListener('visibilitychange', () => {
+                if (document.hidden) {
+                    cancelAnimationFrame(animationId);
+                } else {
+                    animate();
+                }
+            });
+            
             window.addEventListener('resize', () => {
                 camera.aspect = window.innerWidth / window.innerHeight;
                 camera.updateProjectionMatrix();
@@ -357,7 +484,7 @@
             });
         };
         
-        // ENHANCED Smart AI Class with Thinking, Memory, and Task Execution
+        // Smart AI Class - UNCHANGED
         class SmartAI {
             constructor() {
                 this.memory = {
@@ -369,36 +496,28 @@
                 this.maxHistory = 10;
             }
 
-            // Advanced thinking process
             think(input, userData) {
                 const thoughts = [];
-                
-                // 1. Analyze input
                 thoughts.push(`Analyzing: "${input.substring(0, 30)}${input.length > 30 ? '...' : ''}"`);
                 
-                // 2. Extract entities
                 const entities = this.extractEntities(input);
                 if (entities.numbers.length > 0) thoughts.push(`Found numbers: [${entities.numbers.join(', ')}]`);
                 if (entities.dates.length > 0) thoughts.push(`Found dates: [${entities.dates.join(', ')}]`);
                 if (entities.tasks.length > 0) thoughts.push(`Found tasks: [${entities.tasks.join(', ')}]`);
                 
-                // 3. Check context from previous messages
                 const contextHint = this.memory.conversationHistory.length > 0 
                     ? `Previous context: ${this.memory.conversationHistory[this.memory.conversationHistory.length - 1].substring(0, 20)}...`
                     : 'New conversation';
                 thoughts.push(contextHint);
                 
-                // 4. Determine intent complexity
                 const intent = this.classifyIntent(input);
                 thoughts.push(`Intent detected: ${intent.type} (confidence: ${intent.confidence})`);
                 
-                // 5. Check if action needed
                 const action = this.determineAction(intent, entities, userData);
                 if (action) {
                     thoughts.push(`Action required: ${action.type} (${action.description})`);
                 }
                 
-                // 6. Search user data if needed
                 if (intent.type === 'QUERY_DATA' || intent.type === 'STATUS_CHECK') {
                     const searchResults = this.searchUserData(intent, userData);
                     thoughts.push(`Searched data: ${searchResults.found ? 'Found relevant info' : 'No specific data found'}`);
@@ -415,8 +534,6 @@
 
             extractEntities(text) {
                 const lower = text.toLowerCase();
-                
-                // Extract numbers (including "5k" -> 5000)
                 const numberMatches = text.match(/(\d+\.?\d*)\s*(k|thousand|hundred)?/gi) || [];
                 const numbers = numberMatches.map(n => {
                     const num = parseFloat(n.match(/[\d.]+/)[0]);
@@ -424,11 +541,9 @@
                     return num;
                 }).filter(n => !isNaN(n));
 
-                // Extract dates
                 const datePatterns = ['today', 'tomorrow', 'yesterday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
                 const dates = datePatterns.filter(d => lower.includes(d));
 
-                // Extract potential task descriptions
                 const taskIndicators = ['add', 'create', 'new', 'task', 'todo', 'remind me to', 'buy', 'get', 'call', 'email'];
                 const tasks = [];
                 taskIndicators.forEach(indicator => {
@@ -445,7 +560,6 @@
 
             classifyIntent(text) {
                 const lower = text.toLowerCase().trim();
-                
                 const patterns = {
                     ADD_TASK: { patterns: [/add\s+(.+)/i, /create\s+task/i, /new\s+task/i, /remind\s+me\s+to/i, /buy\s+(.+)/i, /get\s+(.+)/i], confidence: 0 },
                     COMPLETE_TASK: { patterns: [/done\s+with/i, /completed/i, /finish/i, /mark.*done/i, /check\s+off/i], confidence: 0 },
@@ -472,7 +586,6 @@
                     }
                 }
 
-                // Context boost
                 if (this.memory.lastAction === 'ADD_TASK' && lower.includes('yes')) {
                     bestIntent = { type: 'CONFIRMATION', confidence: 0.9 };
                 }
@@ -482,7 +595,6 @@
 
             determineAction(intent, entities, userData) {
                 const actions = [];
-                
                 if (intent.type === 'ADD_TASK' && entities.tasks.length > 0) {
                     actions.push({
                         type: 'ADD_TODO',
@@ -494,9 +606,7 @@
                         description: `Add todo: "${entities.tasks[0]}"`
                     });
                 }
-                
                 if (intent.type === 'COMPLETE_TASK') {
-                    // Try to find matching task
                     const taskName = entities.tasks[0] || entities.raw;
                     actions.push({
                         type: 'COMPLETE_TODO',
@@ -504,7 +614,6 @@
                         description: `Mark matching task as complete`
                     });
                 }
-                
                 if (intent.type === 'UPDATE_STEPS' && entities.numbers.length > 0) {
                     const amount = entities.numbers[0];
                     actions.push({
@@ -513,7 +622,6 @@
                         description: `Add ${amount} steps to activity tracker`
                     });
                 }
-
                 if (intent.type === 'QUERY_TASKS') {
                     actions.push({
                         type: 'SEARCH_TODOS',
@@ -521,65 +629,45 @@
                         description: 'Retrieve pending tasks'
                     });
                 }
-
                 return actions.length > 0 ? actions[0] : null;
             }
 
             searchUserData(intent, userData) {
                 if (!userData) return { found: false, data: null };
-                
-                const results = {
-                    found: true,
-                    stats: {},
-                    insights: []
-                };
-
-                // Analyze steps
+                const results = { found: true, stats: {}, insights: [] };
                 if (userData.steps !== undefined) {
                     results.stats.steps = userData.steps;
                     results.stats.goalProgress = (userData.steps / 10000 * 100).toFixed(1);
                     if (userData.steps > 8000) results.insights.push('On track for 10k goal');
                     if (userData.steps < 2000) results.insights.push('Low activity detected');
                 }
-
-                // Analyze todos
                 if (userData.todos) {
                     const pending = userData.todos.filter(t => !t.completed).length;
                     const completed = userData.todos.filter(t => t.completed).length;
                     results.stats.pendingTasks = pending;
                     results.stats.completedTasks = completed;
-                    results.stats.productivityRate = pending + completed > 0 
-                        ? (completed / (pending + completed) * 100).toFixed(0) 
-                        : 0;
+                    results.stats.productivityRate = pending + completed > 0 ? (completed / (pending + completed) * 100).toFixed(0) : 0;
                 }
-
-                // Weight analysis
                 if (userData.weight && userData.goalWeight) {
                     const diff = userData.weight - userData.goalWeight;
                     results.stats.weightDiff = diff;
                     if (diff <= 0) results.insights.push('Goal weight achieved!');
                     else results.insights.push(`${diff}kg to goal`);
                 }
-
                 return results;
             }
 
             generateResponse(input, userData) {
-                // 1. THINKING PHASE
                 const analysis = this.think(input, userData);
-                
-                // 2. Store in memory
                 this.memory.conversationHistory.push(input);
                 if (this.memory.conversationHistory.length > this.maxHistory) {
                     this.memory.conversationHistory.shift();
                 }
 
-                // 3. EXECUTE & GENERATE
                 let content = '';
                 let quickReplies = [];
                 const name = userData?.name || 'Warrior';
 
-                // Handle actions first
                 if (analysis.action) {
                     switch(analysis.action.type) {
                         case 'ADD_TODO':
@@ -587,17 +675,14 @@
                             quickReplies = ['Add another', 'Show my tasks', 'Mark it done'];
                             this.memory.lastAction = 'ADD_TASK';
                             break;
-                            
                         case 'COMPLETE_TODO':
                             content = `✓ Task Completed!\n\nI'll mark "${analysis.action.payload.searchTerm}" as done. Great productivity!`;
                             quickReplies = ['What\'s next?', 'Add new task', 'Show progress'];
                             break;
-                            
                         case 'UPDATE_STEPS':
                             content = `📊 Steps Updated!\n\nAdded ${analysis.action.payload.amount} steps to your daily count.\n\nCurrent total: ~${(userData?.steps || 0) + analysis.action.payload.amount} steps`;
                             quickReplies = ['Add more steps', 'How many calories?', 'Show progress'];
                             break;
-                            
                         case 'SEARCH_TODOS':
                             const pending = userData?.todos?.filter(t => !t.completed) || [];
                             if (pending.length === 0) {
@@ -611,7 +696,6 @@
                             break;
                     }
                 } else {
-                    // No action - provide intelligent response based on intent
                     switch(analysis.intent.type) {
                         case 'QUERY_STEPS':
                             const steps = userData?.steps || 0;
@@ -620,54 +704,40 @@
                             content = `👟 Activity Analysis:\n\nSteps: ${steps.toLocaleString()}/10,000\nCalories: ~${calories} kcal\nDistance: ~${distance} km\n\n${steps > 8000 ? '🔥 Excellent! You\'re crushing it today.' : steps > 4000 ? '⚡ Good momentum. Push for 10k!' : '🌱 Fresh start. Every step counts!'}`;
                             quickReplies = ['Add 1000 steps', 'What should I eat?', 'Give me a workout'];
                             break;
-                            
                         case 'MEAL_SUGGESTION':
                             const stepLevel = (userData?.steps || 0) > 8000 ? 'high' : 'moderate';
                             content = `🍽️ Nutrition Plan (${stepLevel} activity day):\n\nBased on your ${userData?.steps || 0} steps:\n• Protein: Grilled salmon (200g)\n• Carbs: Quinoa or sweet potato\n• Fats: Avocado + olive oil\n• Veggies: Broccoli, spinach\n\nTotal: ~550 cal | 40g protein\nPerfect for recovery!`;
                             quickReplies = ['Track calories', 'Vegetarian option', 'Quick snack?'];
                             break;
-                            
                         case 'WORKOUT_PLAN':
                             content = `💪 Smart Workout Generator:\n\nAnalyzing your current ${userData?.steps || 0} steps...\n\n${(userData?.steps || 0) > 10000 ? 'Recovery Day:\n• 15min yoga\n• Foam rolling\n• Light stretching' : 'High-Intensity:\n• 5min warmup\n• 4 rounds:\n  - 15 burpees\n  - 20 squats\n  - 10 push-ups\n• 5min cooldown'}\n\nBurn: ~${(userData?.steps || 0) > 10000 ? '150' : '400'} calories`;
                             quickReplies = ['Start workout', 'Easier option', 'Add to tasks'];
                             break;
-                            
                         case 'MOTIVATION':
                             const progress = ((userData?.steps || 0) / 10000 * 100).toFixed(0);
                             content = `🔥 ${name}, Reality Check:\n\nYou've moved ${(userData?.steps || 0).toLocaleString()} times today.\nThat's ${progress}% of your goal.\n\n${progress < 50 ? 'The gap between who you are and who you want to be is closing with every step. Close it faster.' : 'You\'re in the top 20% of people right now. Keep the momentum. Don\'t break the chain.'}\n\nYour future self is watching. Make them proud.`;
                             quickReplies = ['Track steps', 'What\'s next?', 'I need food'];
                             break;
-                            
                         case 'ANALYTICS':
                             const searchData = this.searchUserData(analysis.intent, userData);
                             content = `📊 Deep Analytics Report:\n\nActivity Score: ${searchData.stats.productivityRate}%\nSteps: ${searchData.stats.steps || 0} (${searchData.stats.goalProgress}% of goal)\nTasks: ${searchData.stats.completedTasks || 0} done, ${searchData.stats.pendingTasks || 0} pending\nWeight: ${searchData.stats.weightDiff || 0}kg from target\n\nInsights:\n${searchData.insights.map(i => `• ${i}`).join('\n')}\n\nTrend: ${searchData.stats.steps > 5000 ? '↗️ Upward' : '➡️ Starting'}`;
                             quickReplies = ['Improve score', 'Add task', 'Workout plan'];
                             break;
-                            
                         case 'GREETING':
                             content = `👋 Welcome back, ${name}!\n\nI'm in Enhanced Mode. I can:\n• Create and manage your tasks\n• Track your steps and calories\n• Analyze your progress\n• Generate workouts & meal plans\n• Provide motivation\n\nWhat are we accomplishing today?`;
                             quickReplies = ['Check my tasks', 'Log steps', 'What should I eat?', 'Motivate me'];
                             break;
-                            
                         default:
                             content = `🤔 I understand: "${input}"\n\nI'm not sure how to help with that specifically. I can:\n• Add tasks: "Add buy groceries to my list"\n• Track steps: "Add 500 steps"\n• Check status: "What are my pending tasks?"\n• Plan meals: "What should I eat?"\n• Create workouts: "Give me a workout"\n\nWhat would you like to do?`;
                             quickReplies = ['Show my tasks', 'Log 1000 steps', 'Workout plan', 'Meal suggestion'];
                     }
                 }
 
-                return {
-                    content,
-                    thinking: analysis.thoughts,
-                    actions: analysis.action ? [analysis.action] : [],
-                    quickReplies,
-                    analysis
-                };
+                return { content, thinking: analysis.thoughts, actions: analysis.action ? [analysis.action] : [], quickReplies, analysis };
             }
 
-            // Execute actions in Firebase
             async executeActions(actions, userId) {
                 const results = [];
-                
                 for (const action of actions) {
                     try {
                         switch(action.type) {
@@ -680,9 +750,7 @@
                                 });
                                 results.push({ success: true, type: 'ADD_TODO', id: todoRef.id });
                                 break;
-                                
                             case 'COMPLETE_TODO':
-                                // Find and update matching todo
                                 const todosSnap = await db.collection('users').doc(userId).collection('todos')
                                     .where('completed', '==', false)
                                     .get();
@@ -696,7 +764,6 @@
                                 });
                                 results.push({ success: true, type: 'COMPLETE_TODO', count: completed });
                                 break;
-                                
                             case 'UPDATE_STEPS':
                                 const userRef = db.collection('users').doc(userId);
                                 const userSnap = await userRef.get();
@@ -709,14 +776,13 @@
                         results.push({ success: false, type: action.type, error: err.message });
                     }
                 }
-                
                 return results;
             }
         }
         
         const smartAI = new SmartAI();
-        
-        // FIXED Auth Component with proper error handling for local file protocol
+
+        // Auth Component - Mobile optimized
         const Auth = ({ onAuth }) => {
             const [isLogin, setIsLogin] = useState(true);
             const [form, setForm] = useState({ name: '', email: '', password: '' });
@@ -724,7 +790,6 @@
             const [loading, setLoading] = useState(false);
             const [isLocalFile, setIsLocalFile] = useState(false);
             
-            // Check if running from local file system
             useEffect(() => {
                 if (window.location.protocol === 'file:') {
                     setIsLocalFile(true);
@@ -736,7 +801,6 @@
                 e.preventDefault();
                 setLoading(true);
                 setError('');
-                
                 try {
                     if (isLogin) {
                         await auth.signInWithEmailAndPassword(form.email, form.password);
@@ -751,7 +815,6 @@
                     }
                     onAuth();
                 } catch (err) {
-                    // Clean up error messages for user
                     let message = err.message;
                     if (message.includes('auth/invalid-credential')) message = 'Invalid email or password';
                     else if (message.includes('auth/user-not-found')) message = 'Account not found. Please sign up.';
@@ -764,12 +827,10 @@
             };
             
             const handleGoogle = async () => {
-                // Prevent Google sign-in if running from local file
                 if (window.location.protocol === 'file:') {
                     setError('Google Sign-In requires HTTP/HTTPS. Please use Email/Password or deploy to a server.');
                     return;
                 }
-                
                 setLoading(true);
                 setError('');
                 try {
@@ -798,16 +859,16 @@
             };
             
             return (
-                <div className="h-full w-full flex items-center justify-center p-4">
-                    <div className="glass w-full max-w-md p-8 rounded-3xl animate-fade-in">
-                        <div className="text-center mb-8">
-                            <div className="text-6xl mb-4">💎</div>
-                            <h1 className="text-4xl font-bold mb-2">TRANSFORM<span className="gradient-text">.OS</span></h1>
-                            <p className="text-gray-400">{isLogin ? 'Welcome back' : 'Start your journey'}</p>
+                <div className="h-full w-full flex items-center justify-center p-4 overflow-y-auto custom-scrollbar safe-area-top safe-area-bottom">
+                    <div className="glass w-full max-w-md p-6 md:p-8 rounded-3xl animate-fade-in my-auto">
+                        <div className="text-center mb-6 md:mb-8">
+                            <div className="text-5xl md:text-6xl mb-4">💎</div>
+                            <h1 className="text-3xl md:text-4xl font-bold mb-2">TRANSFORM<span className="gradient-text">.OS</span></h1>
+                            <p className="text-gray-400 text-sm md:text-base">{isLogin ? 'Welcome back' : 'Start your journey'}</p>
                         </div>
                         
                         {error && (
-                            <div className={`border p-4 rounded-xl mb-4 text-sm ${error.includes('⚠️') ? 'bg-yellow-500/20 border-yellow-500 text-yellow-300' : 'bg-red-500/20 border-red-500 text-red-300'}`}>
+                            <div className={`border p-3 md:p-4 rounded-xl mb-4 text-xs md:text-sm ${error.includes('⚠️') ? 'bg-yellow-500/20 border-yellow-500 text-yellow-300' : 'bg-red-500/20 border-red-500 text-red-300'}`}>
                                 {error}
                             </div>
                         )}
@@ -815,10 +876,10 @@
                         <button 
                             onClick={handleGoogle} 
                             disabled={loading || isLocalFile} 
-                            className={`w-full bg-white text-gray-900 p-4 rounded-xl mb-4 font-medium flex items-center justify-center gap-3 transition-all disabled:opacity-50 disabled:cursor-not-allowed ${isLocalFile ? 'opacity-50 grayscale' : 'hover:shadow-lg'}`}
+                            className={`w-full bg-white text-gray-900 p-3 md:p-4 rounded-xl mb-4 font-medium flex items-center justify-center gap-3 transition-all disabled:opacity-50 disabled:cursor-not-allowed text-sm md:text-base ${isLocalFile ? 'opacity-50 grayscale' : 'hover:shadow-lg'}`}
                         >
-                            <svg width="20" height="20" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>
-                            {isLocalFile ? 'Google Sign-In Unavailable (Local File)' : 'Continue with Google'}
+                            <svg className="w-5 h-5" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>
+                            {isLocalFile ? 'Google Unavailable (Local File)' : 'Continue with Google'}
                         </button>
                         
                         <div className="relative mb-6"><div className="absolute inset-0 flex items-center"><div className="w-full border-t border-white/10"></div></div><div className="relative flex justify-center text-sm"><span className="px-2 bg-[#0a0a0a] text-gray-500">or</span></div></div>
@@ -830,7 +891,7 @@
                             <button type="submit" disabled={loading} className="w-full btn-primary disabled:opacity-50">{loading ? 'Loading...' : isLogin ? 'Sign In' : 'Create Account'}</button>
                         </form>
                         
-                        <p className="text-center mt-6 text-gray-400">
+                        <p className="text-center mt-6 text-gray-400 text-sm">
                             {isLogin ? "New here? " : "Have an account? "}
                             <button onClick={() => {setIsLogin(!isLogin); setError('');}} className="text-cyan-400 font-bold hover:underline">{isLogin ? 'Sign Up' : 'Sign In'}</button>
                         </p>
@@ -846,6 +907,7 @@
             );
         };
         
+        // Vitals Component - Mobile optimized
         const Vitals = ({ user, userData, updateData }) => {
             const [stats, setStats] = useState({ steps: userData?.steps || 0, calories: userData?.calories || 0, isActive: false });
             const [celebration, setCelebration] = useState(null);
@@ -857,18 +919,14 @@
                         setStats(prev => {
                             const inc = Math.random() > 0.6 ? Math.floor(Math.random() * 3) + 1 : 0;
                             if (!inc) return prev;
-                            
                             const newSteps = prev.steps + inc;
                             const newCals = prev.calories + (inc * 0.04);
-                            
-                            // Check milestones
                             const milestones = [1000, 5000, 10000, 15000];
                             if (milestones.includes(newSteps) && !milestones.includes(prev.steps)) {
                                 const medal = newSteps >= 10000 ? 'GOLD' : newSteps >= 5000 ? 'SILVER' : 'BRONZE';
                                 setCelebration(medal);
                                 setTimeout(() => setCelebration(null), 3000);
                             }
-                            
                             const updated = { ...prev, steps: newSteps, calories: Math.floor(newCals) };
                             db.collection('users').doc(user.uid).update({ steps: newSteps, calories: Math.floor(newCals) });
                             updateData({ steps: newSteps, calories: Math.floor(newCals) });
@@ -889,24 +947,24 @@
             const percent = Math.min((stats.steps / 10000) * 100, 100);
             
             return (
-                <div className="h-full overflow-y-auto custom-scrollbar p-6 animate-fade-in">
+                <div className="h-full overflow-y-auto custom-scrollbar p-4 md:p-6 animate-fade-in safe-area-top">
                     {celebration && (
                         <div className="celebration">
-                            <div className="glass p-12 rounded-3xl text-center border-2 border-yellow-400">
-                                <div className="text-8xl mb-4">🏆</div>
-                                <h3 className="text-4xl font-bold text-yellow-400 mb-2">{celebration}!</h3>
-                                <p className="text-2xl">Amazing work! Keep moving!</p>
+                            <div className="glass p-8 md:p-12 rounded-3xl text-center border-2 border-yellow-400 mx-4">
+                                <div className="text-6xl md:text-8xl mb-4">🏆</div>
+                                <h3 className="text-3xl md:text-4xl font-bold text-yellow-400 mb-2">{celebration}!</h3>
+                                <p className="text-xl md:text-2xl">Amazing work! Keep moving!</p>
                             </div>
                         </div>
                     )}
                     
-                    <div className="max-w-5xl mx-auto space-y-6">
-                        <div className="flex justify-between items-center">
+                    <div className="max-w-5xl mx-auto space-y-4 md:space-y-6 pb-20 md:pb-6">
+                        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
                             <div>
-                                <h2 className="text-3xl font-bold mb-1">Motion Lab</h2>
-                                <p className="text-gray-400">Real-time activity tracking</p>
+                                <h2 className="text-2xl md:text-3xl font-bold mb-1">Motion Lab</h2>
+                                <p className="text-gray-400 text-sm md:text-base">Real-time activity tracking</p>
                             </div>
-                            <button onClick={() => setStats(p => ({...p, isActive: !p.isActive}))} className={`px-6 py-3 rounded-full font-bold ${stats.isActive ? 'bg-red-500/20 text-red-400 animate-pulse' : 'btn-primary'}`}>
+                            <button onClick={() => setStats(p => ({...p, isActive: !p.isActive}))} className={`px-6 py-3 rounded-full font-bold w-full md:w-auto ${stats.isActive ? 'bg-red-500/20 text-red-400 animate-pulse' : 'btn-primary'}`}>
                                 {stats.isActive ? '⏹ Stop' : '▶ Start Tracking'}
                             </button>
                         </div>
@@ -915,49 +973,49 @@
                             <div className="glass p-4 rounded-xl border border-cyan-400/30 bg-cyan-400/5">
                                 <div className="flex items-center gap-3">
                                     <div className="w-3 h-3 bg-cyan-400 rounded-full animate-pulse"></div>
-                                    <span className="text-cyan-400">Tracking active - sensing motion...</span>
+                                    <span className="text-cyan-400 text-sm md:text-base">Tracking active - sensing motion...</span>
                                 </div>
                             </div>
                         )}
                         
                         {!stats.isActive && stats.steps === 0 ? (
-                            <div className="glass p-12 rounded-3xl text-center border border-dashed border-white/20">
-                                <div className="text-6xl mb-4">👟</div>
-                                <h3 className="text-2xl font-bold mb-2">Ready to Move?</h3>
-                                <p className="text-gray-400 mb-6">Click "Start Tracking" to begin automatic step counting</p>
+                            <div className="glass p-8 md:p-12 rounded-3xl text-center border border-dashed border-white/20">
+                                <div className="text-5xl md:text-6xl mb-4">👟</div>
+                                <h3 className="text-xl md:text-2xl font-bold mb-2">Ready to Move?</h3>
+                                <p className="text-gray-400 mb-6 text-sm md:text-base">Click "Start Tracking" to begin automatic step counting</p>
                                 <div className="flex gap-4 justify-center">
-                                    <button onClick={() => addSteps(100)} className="px-4 py-2 bg-white/5 rounded-lg hover:bg-white/10">+100 test</button>
-                                    <button onClick={() => addSteps(1000)} className="px-4 py-2 bg-white/5 rounded-lg hover:bg-white/10">+1K test</button>
+                                    <button onClick={() => addSteps(100)} className="px-4 py-2 bg-white/5 rounded-lg hover:bg-white/10 text-sm">+100 test</button>
+                                    <button onClick={() => addSteps(1000)} className="px-4 py-2 bg-white/5 rounded-lg hover:bg-white/10 text-sm">+1K test</button>
                                 </div>
                             </div>
                         ) : (
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                <div className="glass p-8 rounded-3xl hover-lift">
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
+                                <div className="glass p-6 md:p-8 rounded-3xl hover-lift">
                                     <div className="flex justify-between mb-4">
-                                        <span className="text-gray-400 text-sm uppercase">Steps</span>
-                                        <span className="text-3xl">👟</span>
+                                        <span className="text-gray-400 text-xs md:text-sm uppercase">Steps</span>
+                                        <span className="text-2xl md:text-3xl">👟</span>
                                     </div>
-                                    <div className="text-5xl font-bold mb-4">{stats.steps.toLocaleString()}</div>
+                                    <div className="text-4xl md:text-5xl font-bold mb-4">{stats.steps.toLocaleString()}</div>
                                     <div className="h-3 bg-gray-800 rounded-full overflow-hidden mb-2">
                                         <div className="h-full bg-gradient-to-r from-cyan-400 to-purple-500 rounded-full transition-all" style={{width: `${percent}%`}} />
                                     </div>
-                                    <p className="text-sm text-gray-400">{stats.steps >= 10000 ? '🏆 Goal reached!' : `${(10000-stats.steps).toLocaleString()} remaining`}</p>
+                                    <p className="text-xs md:text-sm text-gray-400">{stats.steps >= 10000 ? '🏆 Goal reached!' : `${(10000-stats.steps).toLocaleString()} remaining`}</p>
                                 </div>
                                 
-                                <div className="glass p-8 rounded-3xl hover-lift">
+                                <div className="glass p-6 md:p-8 rounded-3xl hover-lift">
                                     <div className="flex justify-between mb-4">
-                                        <span className="text-gray-400 text-sm uppercase">Calories</span>
-                                        <span className="text-3xl">🔥</span>
+                                        <span className="text-gray-400 text-xs md:text-sm uppercase">Calories</span>
+                                        <span className="text-2xl md:text-3xl">🔥</span>
                                     </div>
-                                    <div className="text-5xl font-bold text-orange-400">{Math.floor(stats.calories)}</div>
-                                    <p className="text-sm text-gray-400 mt-4">Active burn today</p>
+                                    <div className="text-4xl md:text-5xl font-bold text-orange-400">{Math.floor(stats.calories)}</div>
+                                    <p className="text-xs md:text-sm text-gray-400 mt-4">Active burn today</p>
                                 </div>
                             </div>
                         )}
                         
-                        <div className="glass p-8 rounded-3xl">
-                            <h3 className="text-xl font-bold mb-6">Achievements</h3>
-                            <div className="flex gap-6 justify-center md:justify-start">
+                        <div className="glass p-6 md:p-8 rounded-3xl">
+                            <h3 className="text-lg md:text-xl font-bold mb-6">Achievements</h3>
+                            <div className="flex gap-4 md:gap-6 justify-center md:justify-start">
                                 {[
                                     {type: 'bronze', label: '1K', threshold: 1000},
                                     {type: 'silver', label: '5K', threshold: 5000},
@@ -973,11 +1031,11 @@
                             </div>
                         </div>
                         
-                        <div className="glass p-6 rounded-3xl">
-                            <h3 className="font-bold mb-4">Quick Add</h3>
-                            <div className="flex gap-3">
+                        <div className="glass p-4 md:p-6 rounded-3xl">
+                            <h3 className="font-bold mb-4 text-sm md:text-base">Quick Add</h3>
+                            <div className="flex gap-2 md:gap-3">
                                 {[100, 500, 1000, 5000].map(amt => (
-                                    <button key={amt} onClick={() => addSteps(amt)} className="flex-1 py-3 bg-white/5 hover:bg-cyan-400/20 border border-white/10 rounded-xl transition-all hover:scale-105 font-bold">
+                                    <button key={amt} onClick={() => addSteps(amt)} className="flex-1 py-3 bg-white/5 hover:bg-cyan-400/20 border border-white/10 rounded-xl transition-all hover:scale-105 font-bold text-xs md:text-sm">
                                         +{amt >= 1000 ? (amt/1000) + 'K' : amt}
                                     </button>
                                 ))}
@@ -988,6 +1046,7 @@
             );
         };
         
+        // TimeCenter Component - Mobile optimized
         const TimeCenter = ({ user }) => {
             const [now, setNow] = useState(new Date());
             const [selectedDate, setSelectedDate] = useState(new Date());
@@ -1031,65 +1090,65 @@
             const firstDay = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), 1).getDay();
             
             return (
-                <div className="h-full overflow-y-auto custom-scrollbar p-6 animate-fade-in">
-                    <div className="max-w-6xl mx-auto">
-                        <h2 className="text-3xl font-bold mb-6">Time Command</h2>
+                <div className="h-full overflow-y-auto custom-scrollbar p-4 md:p-6 animate-fade-in safe-area-top">
+                    <div className="max-w-6xl mx-auto pb-20 md:pb-6">
+                        <h2 className="text-2xl md:text-3xl font-bold mb-4 md:mb-6">Time Command</h2>
                         
-                        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                            <div className="space-y-6">
-                                <div className="glass p-8 rounded-3xl text-center">
-                                    <div className="text-6xl font-bold mb-2">
+                        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 md:gap-6">
+                            <div className="space-y-4 md:space-y-6">
+                                <div className="glass p-6 md:p-8 rounded-3xl text-center">
+                                    <div className="text-4xl md:text-6xl font-bold mb-2">
                                         {now.toLocaleTimeString('en-US', {hour12: false, hour: '2-digit', minute: '2-digit'})}
-                                        <span className="text-3xl text-cyan-400 animate-pulse">:{now.getSeconds().toString().padStart(2, '0')}</span>
+                                        <span className="text-2xl md:text-3xl text-cyan-400 animate-pulse">:{now.getSeconds().toString().padStart(2, '0')}</span>
                                     </div>
-                                    <p className="text-gray-400">{now.toLocaleDateString('en-US', {weekday: 'long', month: 'long', day: 'numeric'})}</p>
+                                    <p className="text-gray-400 text-sm md:text-base">{now.toLocaleDateString('en-US', {weekday: 'long', month: 'long', day: 'numeric'})}</p>
                                 </div>
                                 
-                                <div className="glass p-6 rounded-3xl">
-                                    <h3 className="font-bold mb-4 flex items-center gap-2">
+                                <div className="glass p-4 md:p-6 rounded-3xl">
+                                    <h3 className="font-bold mb-4 flex items-center gap-2 text-sm md:text-base">
                                         <span className="text-cyan-400">📋</span>
                                         {selectedDate.toDateString() === new Date().toDateString() ? "Today's Tasks" : `Tasks for ${selectedDate.toLocaleDateString()}`}
                                     </h3>
                                     
-                                    <div className="space-y-2 mb-4 max-h-60 overflow-y-auto">
+                                    <div className="space-y-2 mb-4 max-h-48 md:max-h-60 overflow-y-auto">
                                         {todos.length === 0 ? (
                                             <div className="text-center py-8 text-gray-500 border-2 border-dashed border-white/10 rounded-xl">
                                                 <p className="text-3xl mb-2">🌅</p>
-                                                <p>No tasks yet</p>
+                                                <p className="text-sm">No tasks yet</p>
                                             </div>
                                         ) : todos.map(todo => (
                                             <div key={todo.id} className={`flex items-center gap-3 p-3 rounded-xl ${todo.completed ? 'bg-white/5 opacity-50' : 'bg-white/10'}`}>
-                                                <button onClick={() => toggleTodo(todo.id, todo.completed)} className={`w-5 h-5 rounded border-2 flex items-center justify-center ${todo.completed ? 'bg-cyan-400 border-cyan-400' : 'border-gray-500'}`}>
+                                                <button onClick={() => toggleTodo(todo.id, todo.completed)} className={`w-5 h-5 rounded border-2 flex items-center justify-center flex-shrink-0 ${todo.completed ? 'bg-cyan-400 border-cyan-400' : 'border-gray-500'}`}>
                                                     {todo.completed && <span className="text-black text-xs">✓</span>}
                                                 </button>
-                                                <span className={`flex-1 ${todo.completed ? 'line-through' : ''}`}>{todo.title}</span>
-                                                <button onClick={() => deleteTodo(todo.id)} className="text-red-400 hover:text-red-300">×</button>
+                                                <span className={`flex-1 text-sm ${todo.completed ? 'line-through' : ''}`}>{todo.title}</span>
+                                                <button onClick={() => deleteTodo(todo.id)} className="text-red-400 hover:text-red-300 p-2">×</button>
                                             </div>
                                         ))}
                                     </div>
                                     
                                     <div className="flex gap-2">
                                         <input type="text" value={newTodo} onChange={e => setNewTodo(e.target.value)} onKeyPress={e => e.key === 'Enter' && addTodo()} placeholder="Add task..." />
-                                        <button onClick={addTodo} className="btn-primary px-4">+</button>
+                                        <button onClick={addTodo} className="btn-primary px-4 md:px-4 flex-shrink-0">+</button>
                                     </div>
                                 </div>
                             </div>
                             
-                            <div className="lg:col-span-2 glass p-6 rounded-3xl">
-                                <div className="flex justify-between items-center mb-6">
-                                    <h3 className="text-xl font-bold">{selectedDate.toLocaleDateString('en-US', {month: 'long', year: 'numeric'})}</h3>
-                                    <div className="flex gap-2">
-                                        <button onClick={() => setSelectedDate(new Date(selectedDate.getFullYear(), selectedDate.getMonth() - 1))} className="p-2 hover:bg-white/10 rounded-lg">←</button>
-                                        <button onClick={() => setSelectedDate(new Date())} className="px-4 py-2 bg-white/10 rounded-lg">Today</button>
-                                        <button onClick={() => setSelectedDate(new Date(selectedDate.getFullYear(), selectedDate.getMonth() + 1))} className="p-2 hover:bg-white/10 rounded-lg">→</button>
+                            <div className="lg:col-span-2 glass p-4 md:p-6 rounded-3xl">
+                                <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-4 md:mb-6 gap-4">
+                                    <h3 className="text-lg md:text-xl font-bold">{selectedDate.toLocaleDateString('en-US', {month: 'long', year: 'numeric'})}</h3>
+                                    <div className="flex gap-2 w-full md:w-auto">
+                                        <button onClick={() => setSelectedDate(new Date(selectedDate.getFullYear(), selectedDate.getMonth() - 1))} className="p-2 hover:bg-white/10 rounded-lg flex-1 md:flex-none">←</button>
+                                        <button onClick={() => setSelectedDate(new Date())} className="px-4 py-2 bg-white/10 rounded-lg text-sm">Today</button>
+                                        <button onClick={() => setSelectedDate(new Date(selectedDate.getFullYear(), selectedDate.getMonth() + 1))} className="p-2 hover:bg-white/10 rounded-lg flex-1 md:flex-none">→</button>
                                     </div>
                                 </div>
                                 
-                                <div className="grid grid-cols-7 gap-2 mb-2">
-                                    {['Su','Mo','Tu','We','Th','Fr','Sa'].map(d => <div key={d} className="text-center text-sm text-gray-500 py-2">{d}</div>)}
+                                <div className="grid grid-cols-7 gap-1 md:gap-2 mb-2">
+                                    {['Su','Mo','Tu','We','Th','Fr','Sa'].map(d => <div key={d} className="text-center text-xs md:text-sm text-gray-500 py-2">{d}</div>)}
                                 </div>
                                 
-                                <div className="grid grid-cols-7 gap-2">
+                                <div className="grid grid-cols-7 gap-1 md:gap-2">
                                     {Array.from({length: firstDay}).map((_, i) => <div key={i} />)}
                                     {Array.from({length: daysInMonth}).map((_, i) => {
                                         const day = i + 1;
@@ -1097,7 +1156,7 @@
                                         const isSelected = day === selectedDate.getDate();
                                         return (
                                             <button key={day} onClick={() => setSelectedDate(new Date(selectedDate.getFullYear(), selectedDate.getMonth(), day))} 
-                                                className={`aspect-square rounded-xl flex items-center justify-center transition-all hover:scale-110 ${isSelected ? 'bg-cyan-400 text-black font-bold shadow-lg shadow-cyan-400/50' : isToday ? 'border-2 border-cyan-400 text-cyan-400' : 'bg-white/5 hover:bg-white/10'}`}>
+                                                className={`aspect-square rounded-lg md:rounded-xl flex items-center justify-center transition-all hover:scale-110 text-sm md:text-base ${isSelected ? 'bg-cyan-400 text-black font-bold shadow-lg shadow-cyan-400/50' : isToday ? 'border-2 border-cyan-400 text-cyan-400' : 'bg-white/5 hover:bg-white/10'}`}>
                                                 {day}
                                             </button>
                                         );
@@ -1110,14 +1169,14 @@
             );
         };
         
-        // ENHANCED AI Chat with Thinking Display and Action Execution
+        // AIChat Component - Mobile optimized
         const AIChat = ({ userData, user }) => {
             const [messages, setMessages] = useState([
                 { type: 'ai', content: `👋 Hello! I'm your Enhanced Smart AI.\n\nI can now:\n• Think through problems step-by-step\n• Search your data intelligently\n• Execute tasks (add todos, log steps)\n• Maintain context across conversations\n\nTry: "Add buy milk to my list" or "Log 500 steps"`, showThinking: false }
             ]);
             const [input, setInput] = useState('');
             const [isTyping, setIsTyping] = useState(false);
-            const [showThinking, setShowThinking] = useState(true); // Toggle to show/hide thought process
+            const [showThinking, setShowThinking] = useState(true);
             const messagesEnd = useRef(null);
             
             useEffect(() => {
@@ -1126,31 +1185,22 @@
             
             const send = async (text = input) => {
                 if (!text.trim() || !user) return;
-                
-                // Add user message
                 setMessages(prev => [...prev, { type: 'user', content: text }]);
                 setInput('');
                 setIsTyping(true);
                 
-                // Get AI response with thinking
                 const result = smartAI.generateResponse(text, userData);
-                
-                // Simulate thinking time based on complexity
                 const thinkingTime = result.actions.length > 0 ? 1500 : 800;
                 
                 setTimeout(async () => {
-                    // Execute any actions
                     if (result.actions.length > 0 && user) {
                         const actionResults = await smartAI.executeActions(result.actions, user.uid);
-                        
-                        // Update message with action confirmation
                         const actionText = actionResults.map(r => {
                             if (r.type === 'ADD_TODO' && r.success) return `\n✓ Created task`;
                             if (r.type === 'COMPLETE_TODO' && r.success) return `\n✓ Completed ${r.count} task(s)`;
                             if (r.type === 'UPDATE_STEPS' && r.success) return `\n✓ Steps updated to ${r.newTotal}`;
                             return '';
                         }).join('');
-                        
                         result.content += actionText;
                     }
                     
@@ -1173,53 +1223,54 @@
             
             return (
                 <div className="h-full flex flex-col animate-fade-in">
-                    <div className="glass border-b border-white/10 p-6 flex items-center justify-between">
-                        <div className="flex items-center gap-4">
-                            <div className="w-12 h-12 rounded-full bg-gradient-to-br from-purple-500 to-cyan-400 flex items-center justify-center text-2xl">🧠</div>
+                    <div className="glass border-b border-white/10 p-4 md:p-6 flex items-center justify-between">
+                        <div className="flex items-center gap-3 md:gap-4">
+                            <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-gradient-to-br from-purple-500 to-cyan-400 flex items-center justify-center text-xl md:text-2xl">🧠</div>
                             <div>
-                                <h3 className="font-bold text-xl">Transform AI</h3>
-                                <p className="text-sm text-gray-400 flex items-center gap-2">
+                                <h3 className="font-bold text-lg md:text-xl">Transform AI</h3>
+                                <p className="text-xs md:text-sm text-gray-400 flex items-center gap-2">
                                     <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
-                                    Enhanced Mode • Context-Aware • Task-Enabled
+                                    <span className="hidden md:inline">Enhanced Mode • Context-Aware • Task-Enabled</span>
+                                    <span className="md:hidden">Task-Enabled AI</span>
                                 </p>
                             </div>
                         </div>
-                        <div className="flex items-center gap-2 text-sm text-gray-400">
-                            <span>Show Thinking</span>
+                        <div className="flex items-center gap-2 text-xs md:text-sm text-gray-400">
+                            <span className="hidden md:inline">Show Thinking</span>
                             <button 
                                 onClick={() => setShowThinking(!showThinking)}
-                                className={`w-12 h-6 rounded-full transition-colors ${showThinking ? 'bg-cyan-400' : 'bg-gray-700'} relative`}
+                                className={`w-10 md:w-12 h-5 md:h-6 rounded-full transition-colors ${showThinking ? 'bg-cyan-400' : 'bg-gray-700'} relative`}
                             >
-                                <div className={`absolute top-1 w-4 h-4 rounded-full bg-white transition-all ${showThinking ? 'left-7' : 'left-1'}`} />
+                                <div className={`absolute top-0.5 w-4 h-4 rounded-full bg-white transition-all ${showThinking ? 'left-5 md:left-7' : 'left-0.5'}`} />
                             </button>
                         </div>
                     </div>
                     
-                    <div className="flex-1 overflow-y-auto custom-scrollbar p-6 space-y-4">
+                    <div className="flex-1 overflow-y-auto custom-scrollbar p-4 md:p-6 space-y-3 md:space-y-4">
                         {messages.map((msg, idx) => (
-                            <div key={idx} className={`message-enter flex gap-3 ${msg.type === 'user' ? 'flex-row-reverse' : ''}`}>
-                                <div className={`w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 ${msg.type === 'user' ? 'bg-gray-700' : 'bg-gradient-to-br from-purple-500 to-cyan-400'}`}>
+                            <div key={idx} className={`message-enter flex gap-2 md:gap-3 ${msg.type === 'user' ? 'flex-row-reverse' : ''}`}>
+                                <div className={`w-8 h-8 md:w-10 md:h-10 rounded-full flex items-center justify-center flex-shrink-0 ${msg.type === 'user' ? 'bg-gray-700' : 'bg-gradient-to-br from-purple-500 to-cyan-400'}`}>
                                     {msg.type === 'user' ? '👤' : '🧠'}
                                 </div>
-                                <div className={`max-w-[80%] space-y-2 ${msg.type === 'user' ? 'items-end' : 'items-start'}`}>
+                                <div className={`max-w-[85%] md:max-w-[80%] space-y-2 ${msg.type === 'user' ? 'items-end' : 'items-start'}`}>
                                     {msg.type === 'ai' && msg.thinking && showThinking && (
                                         <div 
                                             className="thinking-box cursor-pointer hover:opacity-80 transition-opacity"
                                             onClick={() => toggleThinking(idx)}
                                         >
-                                            <div className="flex items-center gap-2 mb-1 opacity-70">
-                                                <span className="text-xs">⚡ THINKING PROCESS</span>
-                                                <span className="text-xs">(click to hide)</span>
+                                            <div className="flex items-center gap-2 mb-1 opacity-70 text-xs">
+                                                <span>⚡ THINKING</span>
+                                                <span>(tap to hide)</span>
                                             </div>
-                                            <div className="text-xs opacity-90">{msg.thinking}</div>
+                                            <div className="text-[10px] md:text-xs opacity-90 whitespace-pre-wrap">{msg.thinking}</div>
                                         </div>
                                     )}
-                                    <div className={`p-4 rounded-2xl whitespace-pre-line text-sm ${msg.type === 'user' ? 'bg-cyan-400 text-black font-medium rounded-tr-sm' : 'glass rounded-tl-sm'}`}>
+                                    <div className={`p-3 md:p-4 rounded-2xl whitespace-pre-line text-xs md:text-sm ${msg.type === 'user' ? 'bg-cyan-400 text-black font-medium rounded-tr-sm' : 'glass rounded-tl-sm'}`}>
                                         {msg.content}
                                     </div>
                                     {msg.quickReplies && (
                                         <div className="flex flex-wrap gap-2">
-                                            {msg.quickReplies.map((reply, i) => (
+                                            {msg.quickReplies.slice(0, 3).map((reply, i) => (
                                                 <button key={i} onClick={() => send(reply)} className="px-3 py-1.5 bg-white/10 hover:bg-cyan-400/20 border border-white/10 rounded-full text-xs text-cyan-300 transition-all">
                                                     {reply}
                                                 </button>
@@ -1230,40 +1281,40 @@
                             </div>
                         ))}
                         {isTyping && (
-                            <div className="flex gap-3">
-                                <div className="w-10 h-10 rounded-full bg-gradient-to-br from-purple-500 to-cyan-400 flex items-center justify-center">🧠</div>
-                                <div className="glass p-4 rounded-2xl rounded-tl-sm flex items-center gap-2">
+                            <div className="flex gap-2 md:gap-3">
+                                <div className="w-8 h-8 md:w-10 md:h-10 rounded-full bg-gradient-to-br from-purple-500 to-cyan-400 flex items-center justify-center">🧠</div>
+                                <div className="glass p-3 md:p-4 rounded-2xl rounded-tl-sm flex items-center gap-2">
                                     <div className="typing-indicator"><span></span><span></span><span></span></div>
-                                    <span className="text-gray-400 text-sm">Processing...</span>
+                                    <span className="text-gray-400 text-xs md:text-sm">Processing...</span>
                                 </div>
                             </div>
                         )}
                         <div ref={messagesEnd} />
                     </div>
                     
-                    <div className="glass border-t border-white/10 p-6">
-                        <div className="max-w-4xl mx-auto flex gap-3">
-                            <input type="text" value={input} onChange={e => setInput(e.target.value)} onKeyPress={e => e.key === 'Enter' && !isTyping && send()} placeholder="Try: 'Add buy groceries to my list' or 'Log 1000 steps'..." disabled={isTyping} />
-                            <button onClick={() => send()} disabled={isTyping || !input.trim()} className="btn-primary disabled:opacity-50">{isTyping ? '...' : 'Send'}</button>
+                    <div className="glass border-t border-white/10 p-4 md:p-6 safe-area-bottom">
+                        <div className="max-w-4xl mx-auto flex gap-2 md:gap-3">
+                            <input type="text" value={input} onChange={e => setInput(e.target.value)} onKeyPress={e => e.key === 'Enter' && !isTyping && send()} placeholder="Try: 'Add buy groceries'..." disabled={isTyping} />
+                            <button onClick={() => send()} disabled={isTyping || !input.trim()} className="btn-primary px-4 md:px-6 disabled:opacity-50 text-sm md:text-base">{isTyping ? '...' : 'Send'}</button>
                         </div>
-                        <div className="max-w-4xl mx-auto mt-2 text-xs text-gray-500 text-center">
-                            Enhanced AI can create tasks, update steps, search your data, and maintain conversation context
+                        <div className="max-w-4xl mx-auto mt-2 text-[10px] md:text-xs text-gray-500 text-center">
+                            Enhanced AI executes tasks, searches data, maintains context
                         </div>
                     </div>
                 </div>
             );
         };
         
-        // Main App
+        // Main App - Mobile optimized layout
         const App = () => {
             const [user, setUser] = useState(null);
             const [userData, setUserData] = useState(null);
             const [loading, setLoading] = useState(true);
             const [activeTab, setActiveTab] = useState('vitals');
             const [threeInitialized, setThreeInitialized] = useState(false);
+            const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
             
             useEffect(() => {
-                // Initialize Three.js after mount
                 if (!threeInitialized) {
                     initThreeJS();
                     setThreeInitialized(true);
@@ -1291,45 +1342,87 @@
                 setUserData(null);
             };
             
-            if (loading) return <div className="h-full w-full flex items-center justify-center text-cyan-400 text-2xl">Loading...</div>;
+            if (loading) return <div className="h-full w-full flex items-center justify-center text-cyan-400 text-xl md:text-2xl">Loading...</div>;
             if (!user) return <Auth onAuth={() => {}} />;
             
             const tabs = [
-                { id: 'vitals', label: 'Vitals', icon: '❤️' },
-                { id: 'time', label: 'Time', icon: '🕐' },
-                { id: 'ai', label: 'AI Coach', icon: '🧠' }
+                { id: 'vitals', label: 'Vitals', icon: '❤️', shortLabel: 'Motion' },
+                { id: 'time', label: 'Time', icon: '🕐', shortLabel: 'Time' },
+                { id: 'ai', label: 'AI Coach', icon: '🧠', shortLabel: 'AI' }
             ];
             
             return (
-                <div className="h-full w-full flex">
-                    <div className="w-20 md:w-72 glass border-r border-white/10 flex flex-col">
+                <div className="h-full w-full flex flex-col md:flex-row">
+                    {/* Desktop Sidebar */}
+                    <div className="hidden md:flex w-72 glass border-r border-white/10 flex-col">
                         <div className="p-6 border-b border-white/10">
-                            <h1 className="font-bold text-xl hidden md:block">TRANSFORM<span className="text-cyan-400">.OS</span></h1>
-                            <h1 className="font-bold text-xl md:hidden text-cyan-400">T</h1>
+                            <h1 className="font-bold text-xl">TRANSFORM<span className="text-cyan-400">.OS</span></h1>
                         </div>
                         
                         <nav className="flex-1 p-4 space-y-2">
                             {tabs.map(tab => (
                                 <button key={tab.id} onClick={() => setActiveTab(tab.id)} className={`sidebar-item ${activeTab === tab.id ? 'active' : ''}`}>
                                     <span className="text-2xl">{tab.icon}</span>
-                                    <span className="hidden md:block font-medium">{tab.label}</span>
+                                    <span className="font-medium">{tab.label}</span>
                                 </button>
                             ))}
                         </nav>
                         
                         <div className="p-4 border-t border-white/10">
-                            <div className="hidden md:block mb-4 p-4 glass rounded-xl">
+                            <div className="mb-4 p-4 glass rounded-xl">
                                 <p className="text-sm font-medium truncate">{userData?.name || 'User'}</p>
                                 <p className="text-xs text-gray-500 truncate">{user.email}</p>
                             </div>
                             <button onClick={logout} className="logout-btn">
                                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" /></svg>
-                                <span className="hidden md:block font-medium">Logout</span>
+                                <span className="font-medium">Logout</span>
                             </button>
                         </div>
                     </div>
+
+                    {/* Mobile Header */}
+                    <div className="md:hidden glass border-b border-white/10 p-4 flex justify-between items-center safe-area-top">
+                        <h1 className="font-bold text-lg">TRANSFORM<span className="text-cyan-400">.OS</span></h1>
+                        <button onClick={() => setMobileMenuOpen(!mobileMenuOpen)} className="p-2 text-white">
+                            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={mobileMenuOpen ? "M6 18L18 6M6 6l12 12" : "M4 6h16M4 12h16M4 18h16"} /></svg>
+                        </button>
+                    </div>
+
+                    {/* Mobile Menu Overlay */}
+                    {mobileMenuOpen && (
+                        <div className="md:hidden fixed inset-0 z-40 bg-black/90 backdrop-blur-lg pt-16 px-4">
+                            <div className="space-y-2">
+                                {tabs.map(tab => (
+                                    <button key={tab.id} onClick={() => {setActiveTab(tab.id); setMobileMenuOpen(false);}} className={`sidebar-item ${activeTab === tab.id ? 'active' : ''} text-lg`}>
+                                        <span className="text-2xl">{tab.icon}</span>
+                                        <span className="font-medium">{tab.label}</span>
+                                    </button>
+                                ))}
+                                <div className="border-t border-white/10 my-4 pt-4">
+                                    <p className="text-sm font-medium text-white mb-1">{userData?.name || 'User'}</p>
+                                    <p className="text-xs text-gray-500 mb-4">{user.email}</p>
+                                    <button onClick={logout} className="logout-btn justify-start">
+                                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" /></svg>
+                                        <span className="font-medium">Logout</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    )}
+
+                    {/* Mobile Bottom Nav */}
+                    <div className="md:hidden fixed bottom-0 left-0 right-0 glass border-t border-white/10 z-30 safe-area-bottom">
+                        <div className="flex justify-around p-2">
+                            {tabs.map(tab => (
+                                <button key={tab.id} onClick={() => setActiveTab(tab.id)} className={`flex flex-col items-center gap-1 p-2 rounded-lg transition-all ${activeTab === tab.id ? 'text-cyan-400 bg-cyan-400/10' : 'text-gray-400'}`}>
+                                    <span className="text-xl">{tab.icon}</span>
+                                    <span className="text-[10px] font-medium">{tab.shortLabel}</span>
+                                </button>
+                            ))}
+                        </div>
+                    </div>
                     
-                    <div className="flex-1 overflow-hidden">
+                    <div className="flex-1 overflow-hidden pb-16 md:pb-0">
                         {activeTab === 'vitals' && <Vitals user={user} userData={userData} updateData={setUserData} />}
                         {activeTab === 'time' && <TimeCenter user={user} />}
                         {activeTab === 'ai' && <AIChat userData={userData} user={user} />}
@@ -1338,7 +1431,6 @@
             );
         };
         
-        // Mount React
         const root = ReactDOM.createRoot(document.getElementById('root'));
         root.render(<App />);
     </script>
