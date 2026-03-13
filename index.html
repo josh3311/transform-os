@@ -908,7 +908,7 @@
             -webkit-overflow-scrolling: touch;
         }
         
-        /* PERFECT CENTERED TIME HEADER - IGNORING HAMBURGER */
+        /* PERFECT CENTERED TIME HEADER - MOBILE VISIBLE */
         .time-header-container {
             position: relative;
             width: 100%;
@@ -918,6 +918,7 @@
             padding: 20px;
             margin-bottom: 20px;
             min-height: 80px;
+            z-index: 1;
         }
         
         .time-header-title {
@@ -936,12 +937,19 @@
         }
         
         @media (max-width: 768px) {
-            .time-header-title {
-                font-size: 1.75rem;
-            }
             .time-header-container {
                 min-height: 60px;
                 padding: 16px;
+                margin-top: 10px;
+            }
+            .time-header-title {
+                font-size: 1.5rem;
+                position: relative;
+                left: auto;
+                transform: none;
+                width: 100%;
+                padding: 0 50px;
+                box-sizing: border-box;
             }
         }
     </style>
@@ -2871,9 +2879,9 @@
                     
                     <div className="max-w-6xl mx-auto pb-20 md:pb-6 space-y-6 pt-16 md:pt-0 safe-pad">
                         
-                        {/* PERFECTLY CENTERED TRANSFORM.OS TITLE - Absolute Centered within Box */}
-                        <div className="time-header-container glass rounded-2xl relative flex items-center justify-center">
-                            <h1 className="time-header-title text-center w-full" style={{position: 'absolute', left: '50%', transform: 'translateX(-50%)'}}>
+                        {/* TRANSFORM.OS TITLE - MOBILE VISIBLE */}
+                        <div className="time-header-container glass rounded-2xl flex items-center justify-center">
+                            <h1 className="time-header-title">
                                 TRANSFORM<span style={{color: '#00F0FF'}}>.OS</span>
                             </h1>
                         </div>
