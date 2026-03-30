@@ -15,25 +15,41 @@
         
         * { box-sizing: border-box; margin: 0; padding: 0; }
         
+        html {
+            font-size: 16px;
+        }
+        
+        @media (max-width: 360px) {
+            html { font-size: 14px; }
+        }
+        
+        @media (min-width: 1920px) {
+            html { font-size: 18px; }
+        }
+        
         html, body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
             height: 100%;
             overflow: hidden;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
         
         .app-container {
             height: 100vh;
             height: 100dvh;
             width: 100vw;
+            position: relative;
         }
         
         /* Auth Screen */
         .auth-screen {
             min-height: 100vh;
+            min-height: 100dvh;
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 20px;
+            padding: clamp(16px, 5vw, 40px);
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
@@ -51,12 +67,13 @@
         .auth-card {
             position: relative;
             width: 100%;
-            max-width: 400px;
+            max-width: 420px;
             background: white;
             border-radius: 20px;
-            padding: 40px 32px;
+            padding: clamp(24px, 6vw, 40px);
             box-shadow: 0 20px 60px rgba(0,0,0,0.3);
             animation: slideUp 0.5s ease-out;
+            margin: auto;
         }
         
         @keyframes slideUp {
@@ -66,13 +83,14 @@
         
         .input-field {
             width: 100%;
-            padding: 14px 16px;
+            padding: clamp(12px, 3vw, 16px);
             border: 1.5px solid #e5e7eb;
             border-radius: 12px;
-            font-size: 16px;
+            font-size: clamp(14px, 4vw, 16px);
             transition: all 0.2s;
             background: #fafafa;
             margin-bottom: 12px;
+            min-height: 48px;
         }
         
         .input-field:focus {
@@ -84,15 +102,17 @@
         
         .btn-primary {
             width: 100%;
-            padding: 14px;
+            padding: clamp(12px, 3vw, 16px);
             background: #000;
             color: white;
             border-radius: 12px;
             font-weight: 600;
-            font-size: 16px;
+            font-size: clamp(14px, 4vw, 16px);
             cursor: pointer;
             transition: transform 0.1s;
             margin-top: 8px;
+            border: none;
+            min-height: 48px;
         }
         
         .btn-primary:active {
@@ -101,12 +121,12 @@
         
         .btn-google {
             width: 100%;
-            padding: 14px;
+            padding: clamp(12px, 3vw, 16px);
             background: white;
             border: 1.5px solid #e5e7eb;
             border-radius: 12px;
             font-weight: 500;
-            font-size: 16px;
+            font-size: clamp(14px, 4vw, 16px);
             cursor: pointer;
             display: flex;
             align-items: center;
@@ -114,6 +134,7 @@
             gap: 10px;
             transition: all 0.2s;
             margin-bottom: 16px;
+            min-height: 48px;
         }
         
         .btn-google:hover {
@@ -126,7 +147,7 @@
             align-items: center;
             margin: 20px 0;
             color: #9ca3af;
-            font-size: 14px;
+            font-size: clamp(12px, 3vw, 14px);
         }
         
         .divider::before,
@@ -141,51 +162,72 @@
         /* Todo App */
         .todo-app {
             height: 100vh;
+            height: 100dvh;
             display: flex;
             flex-direction: column;
             background-size: cover;
             background-position: center;
             background-attachment: fixed;
+            position: relative;
         }
         
         .app-header {
             background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(20px);
             border-bottom: 1px solid rgba(0,0,0,0.05);
-            padding: 16px 20px;
+            padding: clamp(12px, 3vw, 20px);
             display: flex;
             justify-content: space-between;
             align-items: center;
             position: sticky;
             top: 0;
             z-index: 10;
+            flex-shrink: 0;
         }
         
         .main-content {
             flex: 1;
             display: flex;
             overflow: hidden;
+            position: relative;
         }
         
         .todo-section {
             flex: 1;
-            padding: 20px;
+            padding: clamp(12px, 3vw, 24px);
             overflow-y: auto;
-            background: rgba(255,255,255,0.7);
+            background: rgba(255,255,255,0.85);
+            -webkit-overflow-scrolling: touch;
         }
         
         .calendar-section {
-            width: 350px;
-            background: rgba(255,255,255,0.9);
+            width: clamp(280px, 30vw, 350px);
+            background: rgba(255,255,255,0.95);
             border-left: 1px solid rgba(0,0,0,0.05);
-            padding: 24px;
+            padding: clamp(16px, 3vw, 24px);
             overflow-y: auto;
+            flex-shrink: 0;
+        }
+        
+        @media (max-width: 768px) {
+            .main-content {
+                flex-direction: column;
+            }
+            
+            .calendar-section {
+                width: 100%;
+                border-left: none;
+                border-top: 1px solid rgba(0,0,0,0.05);
+                padding: 12px;
+                max-height: 40vh;
+                order: -1;
+            }
         }
         
         .task-card {
             background: white;
             border-radius: 16px;
-            padding: 16px;
+            padding: clamp(12px, 3vw, 16px);
             margin-bottom: 12px;
             display: flex;
             align-items: center;
@@ -193,6 +235,7 @@
             box-shadow: 0 2px 8px rgba(0,0,0,0.04);
             transition: all 0.2s;
             border: 1px solid rgba(0,0,0,0.03);
+            position: relative;
         }
         
         .task-card:hover {
@@ -201,8 +244,8 @@
         }
         
         .checkbox {
-            width: 24px;
-            height: 24px;
+            width: clamp(20px, 5vw, 24px);
+            height: clamp(20px, 5vw, 24px);
             border: 2px solid #d1d5db;
             border-radius: 50%;
             cursor: pointer;
@@ -232,15 +275,18 @@
             display: flex;
             gap: 12px;
             margin-bottom: 24px;
+            flex-wrap: wrap;
         }
         
         .add-input {
             flex: 1;
-            padding: 16px;
+            min-width: 200px;
+            padding: clamp(12px, 3vw, 16px);
             border: 1.5px solid #e5e7eb;
             border-radius: 16px;
-            font-size: 16px;
+            font-size: clamp(14px, 4vw, 16px);
             background: white;
+            min-height: 48px;
         }
         
         .add-input:focus {
@@ -249,8 +295,8 @@
         }
         
         .add-btn {
-            width: 56px;
-            height: 56px;
+            width: clamp(48px, 12vw, 56px);
+            height: clamp(48px, 12vw, 56px);
             background: #000;
             color: white;
             border-radius: 16px;
@@ -261,6 +307,7 @@
             cursor: pointer;
             transition: transform 0.1s;
             border: none;
+            flex-shrink: 0;
         }
         
         .add-btn:active {
@@ -281,9 +328,10 @@
             justify-content: center;
             border-radius: 10px;
             cursor: pointer;
-            font-size: 14px;
+            font-size: clamp(12px, 3vw, 14px);
             font-weight: 500;
             transition: all 0.2s;
+            min-height: 32px;
         }
         
         .calendar-day:hover {
@@ -315,7 +363,7 @@
         .settings-card {
             background: white;
             border-radius: 24px;
-            padding: 32px;
+            padding: clamp(24px, 5vw, 32px);
             width: 100%;
             max-width: 420px;
             max-height: 90vh;
@@ -329,8 +377,8 @@
         }
         
         .bg-option {
-            width: 70px;
-            height: 70px;
+            width: clamp(60px, 15vw, 70px);
+            height: clamp(60px, 15vw, 70px);
             border-radius: 16px;
             cursor: pointer;
             border: 3px solid transparent;
@@ -343,56 +391,275 @@
             transform: scale(1.05);
         }
         
-        /* Mobile */
-        @media (max-width: 768px) {
-            .auth-card {
-                padding: 32px 24px;
-            }
-            
-            .main-content {
-                flex-direction: column;
-            }
-            
-            .calendar-section {
-                width: 100%;
-                border-left: none;
-                border-top: 1px solid rgba(0,0,0,0.05);
-                padding: 16px;
-                max-height: 35vh;
-            }
-            
-            .todo-section {
-                padding: 16px;
-            }
-            
-            .task-card {
-                padding: 14px;
-            }
-            
-            .settings-card {
-                padding: 24px;
-                margin: 16px;
+        /* Weekly Recap Section */
+        .weekly-recap {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 20px;
+            padding: clamp(20px, 5vw, 28px);
+            margin-bottom: 24px;
+            color: white;
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+        }
+        
+        .recap-header {
+            font-size: clamp(18px, 5vw, 24px);
+            font-weight: 700;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .recap-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+        
+        .recap-stat-box {
+            background: rgba(255,255,255,0.15);
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            padding: clamp(16px, 4vw, 20px);
+            text-align: center;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+        
+        .recap-number {
+            font-size: clamp(28px, 8vw, 36px);
+            font-weight: 800;
+            line-height: 1;
+            margin-bottom: 4px;
+        }
+        
+        .recap-label {
+            font-size: clamp(12px, 3vw, 14px);
+            opacity: 0.9;
+        }
+        
+        .recap-lists {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+        
+        @media (max-width: 640px) {
+            .recap-lists {
+                grid-template-columns: 1fr;
             }
         }
         
-        .warning-toast {
-            position: fixed;
-            top: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: #fef3c7;
-            color: #92400e;
-            padding: 12px 24px;
+        .recap-list {
+            background: rgba(255,255,255,0.1);
             border-radius: 12px;
-            font-size: 14px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-            z-index: 1000;
-            animation: slideDown 0.3s ease;
+            padding: 16px;
+            max-height: 200px;
+            overflow-y: auto;
         }
         
-        @keyframes slideDown {
-            from { opacity: 0; transform: translate(-50%, -20px); }
-            to { opacity: 1; transform: translate(-50%, 0); }
+        .recap-list h4 {
+            font-size: clamp(14px, 4vw, 16px);
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .recap-item {
+            font-size: clamp(12px, 3vw, 14px);
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            opacity: 0.95;
+            line-height: 1.4;
+        }
+        
+        .recap-item:last-child {
+            border-bottom: none;
+        }
+        
+        /* Task Actions Dropdown */
+        .task-actions {
+            position: relative;
+            display: inline-flex;
+            gap: 8px;
+            margin-left: auto;
+        }
+        
+        .task-menu-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 8px;
+            color: #6b7280;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .task-menu-btn:hover {
+            background: rgba(0,0,0,0.05);
+            color: #000;
+        }
+        
+        .task-dropdown {
+            position: absolute;
+            right: 0;
+            top: 100%;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+            border: 1px solid rgba(0,0,0,0.05);
+            min-width: 200px;
+            z-index: 50;
+            overflow: hidden;
+            margin-top: 4px;
+        }
+        
+        .task-dropdown-item {
+            padding: 12px 16px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border: none;
+            background: none;
+            width: 100%;
+            text-align: left;
+            color: #374151;
+        }
+        
+        .task-dropdown-item:hover {
+            background: #f3f4f6;
+        }
+        
+        .task-dropdown-item.danger {
+            color: #ef4444;
+        }
+        
+        .task-dropdown-item.danger:hover {
+            background: #fef2f2;
+        }
+        
+        /* Celebration Animation */
+        .celebration-overlay {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .celebration-particle {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            animation: celebrate 3s ease-out forwards;
+        }
+        
+        @keyframes celebrate {
+            0% {
+                transform: translate(0, 0) scale(1) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translate(var(--tx), var(--ty)) scale(0) rotate(720deg);
+                opacity: 0;
+            }
+        }
+        
+        .celebration-text {
+            position: absolute;
+            font-size: clamp(24px, 8vw, 48px);
+            font-weight: 800;
+            color: #10b981;
+            animation: textPop 2s ease-out forwards;
+            text-shadow: 0 4px 20px rgba(16, 185, 129, 0.3);
+            pointer-events: none;
+        }
+        
+        @keyframes textPop {
+            0% {
+                transform: scale(0) translateY(50px);
+                opacity: 0;
+            }
+            20% {
+                transform: scale(1.2) translateY(0);
+                opacity: 1;
+            }
+            80% {
+                transform: scale(1) translateY(0);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(0.8) translateY(-30px);
+                opacity: 0;
+            }
+        }
+        
+        /* Date Picker Modal */
+        .date-picker-modal {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.5);
+            backdrop-filter: blur(4px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            z-index: 200;
+        }
+        
+        .date-picker-content {
+            background: white;
+            border-radius: 20px;
+            padding: 24px;
+            width: 100%;
+            max-width: 320px;
+            text-align: center;
+        }
+        
+        .date-input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e5e7eb;
+            border-radius: 12px;
+            font-size: 16px;
+            margin: 16px 0;
+            font-family: inherit;
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: clamp(40px, 10vh, 60px) clamp(20px, 5vw, 40px);
+            color: #9ca3af;
+        }
+        
+        .empty-state-icon {
+            font-size: clamp(36px, 10vw, 48px);
+            margin-bottom: 16px;
+            opacity: 0.5;
+        }
+        
+        .loading-spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,.3);
+            border-radius: 50%;
+            border-top-color: currentColor;
+            animation: spin 1s ease-in-out infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
         }
     </style>
 </head>
@@ -404,7 +671,7 @@
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
     
     <script type="text/babel">
-        const { useState, useEffect } = React;
+        const { useState, useEffect, useRef } = React;
         
         const firebaseConfig = {
             apiKey: "AIzaSyB7U9nscK-mvUrtza6RH6Y7HlF-BCWceZU",
@@ -419,8 +686,6 @@
         const auth = firebase.auth();
         const db = firebase.firestore();
         
-        // REPLACE THESE WITH YOUR IMAGE URLS
-        // Example: 'https://images.unsplash.com/photo-xxx'
         const wallpapers = {
             default: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
             nature: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1920&q=80',
@@ -428,6 +693,320 @@
             ocean: 'https://images.unsplash.com/photo-1505142468610-359e7d316be0?w=1920&q=80',
             minimal: 'linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%)',
             dark: 'linear-gradient(135deg, #1a1a2e 0%, #16213e 100%)'
+        };
+        
+        // Celebration Component
+        const Celebration = ({ show, onComplete }) => {
+            useEffect(() => {
+                if (show) {
+                    const timer = setTimeout(onComplete, 3000);
+                    return () => clearTimeout(timer);
+                }
+            }, [show, onComplete]);
+            
+            if (!show) return null;
+            
+            const particles = Array.from({ length: 50 }, (_, i) => ({
+                id: i,
+                color: ['#10b981', '#3b82f6', '#f59e0b', '#ef4444', '#8b5cf6'][Math.floor(Math.random() * 5)],
+                tx: (Math.random() - 0.5) * 400,
+                ty: (Math.random() - 0.5) * 400 - 200,
+                delay: Math.random() * 0.5
+            }));
+            
+            return (
+                <div className="celebration-overlay">
+                    <div className="celebration-text">Task Completed! 🎉</div>
+                    {particles.map(p => (
+                        <div
+                            key={p.id}
+                            className="celebration-particle"
+                            style={{
+                                backgroundColor: p.color,
+                                left: '50%',
+                                top: '50%',
+                                animationDelay: `${p.delay}s`,
+                                '--tx': `${p.tx}px`,
+                                '--ty': `${p.ty}px`
+                            }}
+                        />
+                    ))}
+                </div>
+            );
+        };
+        
+        // Weekly Recap Component
+        const WeeklyRecap = ({ user }) => {
+            const [weekData, setWeekData] = useState({ completed: [], pending: [] });
+            const [loading, setLoading] = useState(true);
+            
+            useEffect(() => {
+                if (!user) return;
+                
+                const fetchWeekData = async () => {
+                    const today = new Date();
+                    const weekStart = new Date(today);
+                    weekStart.setDate(today.getDate() - today.getDay());
+                    weekStart.setHours(0, 0, 0, 0);
+                    
+                    const weekEnd = new Date(weekStart);
+                    weekEnd.setDate(weekStart.getDate() + 6);
+                    weekEnd.setHours(23, 59, 59, 999);
+                    
+                    try {
+                        const snapshot = await db.collection('users').doc(user.uid).collection('todos')
+                            .where('date', '>=', weekStart.toISOString().split('T')[0])
+                            .where('date', '<=', weekEnd.toISOString().split('T')[0])
+                            .get();
+                        
+                        const completed = [];
+                        const pending = [];
+                        
+                        snapshot.forEach(doc => {
+                            const task = { id: doc.id, ...doc.data() };
+                            if (task.completed) {
+                                completed.push(task);
+                            } else {
+                                pending.push(task);
+                            }
+                        });
+                        
+                        setWeekData({ completed, pending });
+                    } catch (err) {
+                        console.error('Error fetching week data:', err);
+                    } finally {
+                        setLoading(false);
+                    }
+                };
+                
+                fetchWeekData();
+            }, [user]);
+            
+            if (loading) return <div style={{ textAlign: 'center', padding: '20px' }}><span className="loading-spinner"></span></div>;
+            
+            const total = weekData.completed.length + weekData.pending.length;
+            const rate = total > 0 ? Math.round((weekData.completed.length / total) * 100) : 0;
+            
+            return (
+                <div className="weekly-recap">
+                    <div className="recap-header">
+                        <span>📊</span>
+                        <span>Weekly Recap</span>
+                    </div>
+                    
+                    <div className="recap-stats">
+                        <div className="recap-stat-box">
+                            <div className="recap-number" style={{ color: '#10b981' }}>{weekData.completed.length}</div>
+                            <div className="recap-label">Completed</div>
+                        </div>
+                        <div className="recap-stat-box">
+                            <div className="recap-number" style={{ color: '#f59e0b' }}>{weekData.pending.length}</div>
+                            <div className="recap-label">Pending</div>
+                        </div>
+                    </div>
+                    
+                    <div style={{ 
+                        background: 'rgba(255,255,255,0.2)', 
+                        borderRadius: '8px', 
+                        height: '8px', 
+                        marginBottom: '20px',
+                        overflow: 'hidden'
+                    }}>
+                        <div style={{
+                            width: `${rate}%`,
+                            height: '100%',
+                            background: 'white',
+                            borderRadius: '8px',
+                            transition: 'width 0.5s ease-out'
+                        }} />
+                    </div>
+                    <div style={{ textAlign: 'center', fontSize: '14px', marginBottom: '16px', opacity: 0.9 }}>
+                        Completion Rate: {rate}%
+                    </div>
+                    
+                    <div className="recap-lists">
+                        <div className="recap-list">
+                            <h4><span>✅</span> Done This Week</h4>
+                            {weekData.completed.length === 0 ? (
+                                <div style={{ fontSize: '13px', opacity: 0.7, padding: '8px 0' }}>No completed tasks yet</div>
+                            ) : (
+                                weekData.completed.slice(0, 5).map(task => (
+                                    <div key={task.id} className="recap-item" style={{ textDecoration: 'line-through', opacity: 0.8 }}>
+                                        {task.title}
+                                    </div>
+                                ))
+                            )}
+                            {weekData.completed.length > 5 && (
+                                <div style={{ fontSize: '12px', opacity: 0.7, marginTop: '8px' }}>
+                                    +{weekData.completed.length - 5} more
+                                </div>
+                            )}
+                        </div>
+                        
+                        <div className="recap-list">
+                            <h4><span>⏳</span> Still To Do</h4>
+                            {weekData.pending.length === 0 ? (
+                                <div style={{ fontSize: '13px', opacity: 0.7, padding: '8px 0' }}>All caught up! 🎉</div>
+                            ) : (
+                                weekData.pending.slice(0, 5).map(task => (
+                                    <div key={task.id} className="recap-item">
+                                        {task.title}
+                                    </div>
+                                ))
+                            )}
+                            {weekData.pending.length > 5 && (
+                                <div style={{ fontSize: '12px', opacity: 0.7, marginTop: '8px' }}>
+                                    +{weekData.pending.length - 5} more
+                                </div>
+                            )}
+                        </div>
+                    </div>
+                </div>
+            );
+        };
+        
+        // Task Item Component with Actions
+        const TaskItem = ({ todo, onToggle, onDelete, onMove }) => {
+            const [showMenu, setShowMenu] = useState(false);
+            const menuRef = useRef(null);
+            
+            useEffect(() => {
+                const handleClickOutside = (e) => {
+                    if (menuRef.current && !menuRef.current.contains(e.target)) {
+                        setShowMenu(false);
+                    }
+                };
+                document.addEventListener('mousedown', handleClickOutside);
+                return () => document.removeEventListener('mousedown', handleClickOutside);
+            }, []);
+            
+            const handleMoveTomorrow = () => {
+                const tomorrow = new Date();
+                tomorrow.setDate(tomorrow.getDate() + 1);
+                onMove(todo.id, tomorrow.toISOString().split('T')[0]);
+                setShowMenu(false);
+            };
+            
+            return (
+                <div className="task-card">
+                    <div 
+                        className={`checkbox ${todo.completed ? 'checked' : ''}`}
+                        onClick={() => onToggle(todo.id, todo.completed)}
+                    />
+                    <div style={{ flex: 1, minWidth: 0 }}>
+                        <p style={{
+                            fontWeight: '500',
+                            textDecoration: todo.completed ? 'line-through' : 'none',
+                            color: todo.completed ? '#9ca3af' : '#111',
+                            wordBreak: 'break-word',
+                            fontSize: 'clamp(14px, 4vw, 16px)',
+                            lineHeight: 1.4
+                        }}>
+                            {todo.title}
+                        </p>
+                        {todo.date && (
+                            <p style={{ fontSize: '12px', color: '#9ca3af', marginTop: '4px' }}>
+                                {new Date(todo.date).toLocaleDateString()}
+                            </p>
+                        )}
+                    </div>
+                    
+                    <div className="task-actions" ref={menuRef}>
+                        <button 
+                            className="task-menu-btn"
+                            onClick={() => setShowMenu(!showMenu)}
+                            style={{ transform: showMenu ? 'rotate(90deg)' : 'none', transition: 'transform 0.2s' }}
+                        >
+                            <svg width="20" height="20" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z" />
+                            </svg>
+                        </button>
+                        
+                        {showMenu && (
+                            <div className="task-dropdown">
+                                <button className="task-dropdown-item" onClick={handleMoveTomorrow}>
+                                    <span>📅</span>
+                                    <span>Move to Tomorrow</span>
+                                </button>
+                                <button className="task-dropdown-item" onClick={() => {
+                                    onMove(todo.id, null, true);
+                                    setShowMenu(false);
+                                }}>
+                                    <span>📆</span>
+                                    <span>Move to Date...</span>
+                                </button>
+                                <button className="task-dropdown-item danger" onClick={() => {
+                                    onDelete(todo.id);
+                                    setShowMenu(false);
+                                }}>
+                                    <span>🗑️</span>
+                                    <span>Delete</span>
+                                </button>
+                            </div>
+                        )}
+                    </div>
+                </div>
+            );
+        };
+        
+        // Date Picker Modal
+        const DatePickerModal = ({ task, onClose, onConfirm }) => {
+            const [selectedDate, setSelectedDate] = useState(task?.date || new Date().toISOString().split('T')[0]);
+            
+            if (!task) return null;
+            
+            return (
+                <div className="date-picker-modal" onClick={onClose}>
+                    <div className="date-picker-content" onClick={e => e.stopPropagation()}>
+                        <h3 style={{ fontSize: '18px', fontWeight: '600', marginBottom: '8px' }}>Move Task</h3>
+                        <p style={{ fontSize: '14px', color: '#6b7280', marginBottom: '16px' }}>
+                            "{task.title}"
+                        </p>
+                        
+                        <input
+                            type="date"
+                            className="date-input"
+                            value={selectedDate}
+                            onChange={(e) => setSelectedDate(e.target.value)}
+                        />
+                        
+                        <div style={{ display: 'flex', gap: '12px', marginTop: '8px' }}>
+                            <button 
+                                onClick={onClose}
+                                style={{
+                                    flex: 1,
+                                    padding: '12px',
+                                    borderRadius: '10px',
+                                    border: '1px solid #e5e7eb',
+                                    background: 'white',
+                                    cursor: 'pointer',
+                                    fontWeight: '500'
+                                }}
+                            >
+                                Cancel
+                            </button>
+                            <button 
+                                onClick={() => {
+                                    onConfirm(task.id, selectedDate);
+                                    onClose();
+                                }}
+                                style={{
+                                    flex: 1,
+                                    padding: '12px',
+                                    borderRadius: '10px',
+                                    border: 'none',
+                                    background: '#000',
+                                    color: 'white',
+                                    cursor: 'pointer',
+                                    fontWeight: '600'
+                                }}
+                            >
+                                Move
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            );
         };
         
         const Auth = ({ onAuth }) => {
@@ -480,8 +1059,8 @@
                     
                     <div className="auth-card">
                         <div style={{textAlign: 'center', marginBottom: '32px'}}>
-                            <h1 style={{fontSize: '28px', fontWeight: '700', marginBottom: '8px'}}>Todo Space</h1>
-                            <p style={{color: '#6b7280', fontSize: '15px'}}>{isLogin ? 'Welcome back' : 'Create your account'}</p>
+                            <h1 style={{fontSize: 'clamp(24px, 6vw, 28px)', fontWeight: '700', marginBottom: '8px'}}>Todo Space</h1>
+                            <p style={{color: '#6b7280', fontSize: 'clamp(14px, 4vw, 15px)'}}>{isLogin ? 'Welcome back' : 'Create your account'}</p>
                         </div>
                         
                         <button onClick={handleGoogle} className="btn-google">
@@ -518,7 +1097,7 @@
                             </button>
                         </form>
                         
-                        <p style={{textAlign: 'center', marginTop: '24px', fontSize: '14px', color: '#6b7280'}}>
+                        <p style={{textAlign: 'center', marginTop: '24px', fontSize: 'clamp(13px, 3.5vw, 14px)', color: '#6b7280'}}>
                             {isLogin ? "Don't have an account? " : "Already have an account? "}
                             <button 
                                 onClick={() => setIsLogin(!isLogin)}
@@ -539,6 +1118,8 @@
             const [showSettings, setShowSettings] = useState(false);
             const [currentBg, setCurrentBg] = useState('default');
             const [fontSize, setFontSize] = useState('medium');
+            const [showCelebration, setShowCelebration] = useState(false);
+            const [datePickerTask, setDatePickerTask] = useState(null);
             
             useEffect(() => {
                 if (!user) return;
@@ -571,10 +1152,24 @@
                 await db.collection('users').doc(user.uid).collection('todos').doc(id).update({ 
                     completed: !current 
                 });
+                if (!current) {
+                    setShowCelebration(true);
+                }
             };
             
             const deleteTodo = async (id) => {
                 await db.collection('users').doc(user.uid).collection('todos').doc(id).delete();
+            };
+            
+            const moveTodo = async (id, newDate, showPicker = false) => {
+                if (showPicker) {
+                    const task = todos.find(t => t.id === id);
+                    setDatePickerTask(task);
+                    return;
+                }
+                await db.collection('users').doc(user.uid).collection('todos').doc(id).update({
+                    date: newDate
+                });
             };
             
             const logout = async () => {
@@ -592,20 +1187,33 @@
                     backgroundImage: isImage ? `url(${wallpapers[currentBg]})` : wallpapers[currentBg],
                     backgroundColor: isImage ? '#000' : 'transparent'
                 }}>
+                    <Celebration 
+                        show={showCelebration} 
+                        onComplete={() => setShowCelebration(false)} 
+                    />
+                    
+                    {datePickerTask && (
+                        <DatePickerModal
+                            task={datePickerTask}
+                            onClose={() => setDatePickerTask(null)}
+                            onConfirm={moveTodo}
+                        />
+                    )}
+                    
                     <div className="app-header">
                         <div>
-                            <h1 style={{fontSize: '20px', fontWeight: '700'}}>Todo Space</h1>
-                            <p style={{fontSize: '13px', color: '#6b7280', marginTop: '2px'}}>
+                            <h1 style={{fontSize: 'clamp(18px, 5vw, 20px)', fontWeight: '700'}}>Todo Space</h1>
+                            <p style={{fontSize: 'clamp(12px, 3.5vw, 13px)', color: '#6b7280', marginTop: '2px'}}>
                                 {selectedDate.toLocaleDateString('en-US', {weekday: 'long', month: 'short', day: 'numeric'})}
                             </p>
                         </div>
                         <div style={{display: 'flex', gap: '8px'}}>
-                            <button onClick={() => setShowSettings(true)} style={{padding: '8px', borderRadius: '12px'}}>
+                            <button onClick={() => setShowSettings(true)} style={{padding: '8px', borderRadius: '12px', background: 'none', border: 'none', cursor: 'pointer'}}>
                                 <svg width="24" height="24" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
                                     <circle cx="12" cy="12" r="3"/><path d="M12 1v6m0 6v6m4.22-10.22l4.24-4.24M6.34 6.34L2.1 2.1m17.9 9.9h-6m-6 0H2.1m15.12 4.24l4.24 4.24M6.34 17.66l-4.24 4.24"/>
                                 </svg>
                             </button>
-                            <button onClick={logout} style={{padding: '8px', borderRadius: '12px', color: '#ef4444'}}>
+                            <button onClick={logout} style={{padding: '8px', borderRadius: '12px', color: '#ef4444', background: 'none', border: 'none', cursor: 'pointer'}}>
                                 <svg width="24" height="24" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
                                     <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4m7 14l5-5-5-5m5 5H9"/>
                                 </svg>
@@ -615,6 +1223,8 @@
                     
                     <div className="main-content">
                         <div className="todo-section">
+                            <WeeklyRecap user={user} />
+                            
                             <div className="add-task-bar">
                                 <input 
                                     type="text" 
@@ -629,53 +1239,39 @@
                             
                             <div>
                                 {todos.length === 0 ? (
-                                    <div style={{textAlign: 'center', padding: '60px 20px', color: '#9ca3af'}}>
-                                        <div style={{fontSize: '48px', marginBottom: '16px'}}>📝</div>
-                                        <p>No tasks for this day</p>
-                                        <p style={{fontSize: '14px', marginTop: '8px'}}>Add one above to get started</p>
+                                    <div className="empty-state">
+                                        <div className="empty-state-icon">📝</div>
+                                        <p style={{fontSize: 'clamp(16px, 5vw, 18px)', fontWeight: '500', color: '#6b7280'}}>No tasks for this day</p>
+                                        <p style={{fontSize: 'clamp(13px, 4vw, 14px)', marginTop: '8px', color: '#9ca3af'}}>Add one above to get started</p>
                                     </div>
                                 ) : (
                                     todos.map(todo => (
-                                        <div key={todo.id} className="task-card">
-                                            <div 
-                                                className={`checkbox ${todo.completed ? 'checked' : ''}`}
-                                                onClick={() => toggleTodo(todo.id, todo.completed)}
-                                            />
-                                            <div style={{flex: 1, minWidth: 0}}>
-                                                <p style={{
-                                                    fontWeight: '500',
-                                                    textDecoration: todo.completed ? 'line-through' : 'none',
-                                                    color: todo.completed ? '#9ca3af' : '#111',
-                                                    wordBreak: 'break-word'
-                                                }}>
-                                                    {todo.title}
-                                                </p>
-                                            </div>
-                                            <button onClick={() => deleteTodo(todo.id)} style={{color: '#ef4444', padding: '4px'}}>
-                                                <svg width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                                                    <path d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
-                                                </svg>
-                                            </button>
-                                        </div>
+                                        <TaskItem
+                                            key={todo.id}
+                                            todo={todo}
+                                            onToggle={toggleTodo}
+                                            onDelete={deleteTodo}
+                                            onMove={moveTodo}
+                                        />
                                     ))
                                 )}
                             </div>
                             
                             {todos.length > 0 && (
-                                <p style={{textAlign: 'center', marginTop: '24px', fontSize: '14px', color: '#6b7280'}}>
+                                <p style={{textAlign: 'center', marginTop: '24px', fontSize: 'clamp(13px, 4vw, 14px)', color: '#6b7280'}}>
                                     {completedCount} of {todos.length} completed
                                 </p>
                             )}
                         </div>
                         
                         <div className="calendar-section">
-                            <h3 style={{fontWeight: '600', marginBottom: '16px'}}>
+                            <h3 style={{fontWeight: '600', marginBottom: '16px', fontSize: 'clamp(16px, 4vw, 18px)'}}>
                                 {selectedDate.toLocaleDateString('en-US', {month: 'long', year: 'numeric'})}
                             </h3>
                             
                             <div style={{display: 'grid', gridTemplateColumns: 'repeat(7, 1fr)', gap: '4px', marginBottom: '8px'}}>
                                 {['S','M','T','W','T','F','S'].map(d => (
-                                    <div key={d} style={{textAlign: 'center', fontSize: '12px', fontWeight: '600', color: '#9ca3af', padding: '8px'}}>{d}</div>
+                                    <div key={d} style={{textAlign: 'center', fontSize: 'clamp(11px, 3vw, 12px)', fontWeight: '600', color: '#9ca3af', padding: '8px'}}>{d}</div>
                                 ))}
                             </div>
                             
@@ -683,7 +1279,7 @@
                                 {Array.from({length: firstDay}).map((_, i) => <div key={i} />)}
                                 {Array.from({length: daysInMonth}).map((_, i) => {
                                     const day = i + 1;
-                                    const isToday = day === new Date().getDate() && selectedDate.getMonth() === new Date().getMonth();
+                                    const isToday = day === new Date().getDate() && selectedDate.getMonth() === new Date().getMonth() && selectedDate.getFullYear() === new Date().getFullYear();
                                     const isSelected = day === selectedDate.getDate();
                                     return (
                                         <div 
@@ -703,12 +1299,12 @@
                         <div className="settings-modal" onClick={() => setShowSettings(false)}>
                             <div className="settings-card" onClick={e => e.stopPropagation()}>
                                 <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px'}}>
-                                    <h2 style={{fontSize: '20px', fontWeight: '700'}}>Settings</h2>
-                                    <button onClick={() => setShowSettings(false)} style={{fontSize: '24px', color: '#6b7280'}}>×</button>
+                                    <h2 style={{fontSize: 'clamp(18px, 5vw, 20px)', fontWeight: '700'}}>Settings</h2>
+                                    <button onClick={() => setShowSettings(false)} style={{fontSize: '24px', color: '#6b7280', background: 'none', border: 'none', cursor: 'pointer'}}>×</button>
                                 </div>
                                 
                                 <div style={{marginBottom: '24px'}}>
-                                    <label style={{display: 'block', fontSize: '14px', fontWeight: '600', marginBottom: '12px', color: '#374151'}}>Font Size</label>
+                                    <label style={{display: 'block', fontSize: 'clamp(13px, 4vw, 14px)', fontWeight: '600', marginBottom: '12px', color: '#374151'}}>Font Size</label>
                                     <div style={{display: 'flex', gap: '8px'}}>
                                         {['small', 'medium', 'large'].map(size => (
                                             <button
@@ -722,7 +1318,9 @@
                                                     background: fontSize === size ? '#000' : 'white',
                                                     color: fontSize === size ? 'white' : '#374151',
                                                     fontWeight: '500',
-                                                    textTransform: 'capitalize'
+                                                    textTransform: 'capitalize',
+                                                    cursor: 'pointer',
+                                                    fontSize: 'clamp(13px, 4vw, 14px)'
                                                 }}
                                             >
                                                 {size}
@@ -732,7 +1330,7 @@
                                 </div>
                                 
                                 <div>
-                                    <label style={{display: 'block', fontSize: '14px', fontWeight: '600', marginBottom: '12px', color: '#374151'}}>Wallpaper</label>
+                                    <label style={{display: 'block', fontSize: 'clamp(13px, 4vw, 14px)', fontWeight: '600', marginBottom: '12px', color: '#374151'}}>Wallpaper</label>
                                     <div style={{display: 'flex', flexWrap: 'wrap', gap: '12px'}}>
                                         {Object.entries(wallpapers).map(([name, url]) => (
                                             <button
