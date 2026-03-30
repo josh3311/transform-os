@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>SLATE</title>
-    <link rel="icon" type="image/png" href="image(3).png">
     
     <script src="https://cdn.tailwindcss.com"></script>
     <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
@@ -12,7 +11,7 @@
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
     
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap');
         
         * { box-sizing: border-box; margin: 0; padding: 0; }
         
@@ -34,8 +33,6 @@
             overflow: hidden;
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
-            background: #F7F6F3;
-            color: #0A0A0A;
         }
         
         .app-container {
@@ -86,43 +83,36 @@
         
         .input-field {
             width: 100%;
-            padding: 14px 16px;
-            border: 1.5px solid #E5E7EB;
+            padding: clamp(12px, 3vw, 16px);
+            border: 1.5px solid #e5e7eb;
             border-radius: 12px;
-            font-size: 15px;
+            font-size: clamp(14px, 4vw, 16px);
             transition: all 0.2s;
-            background: #FAFAFA;
+            background: #fafafa;
             margin-bottom: 12px;
             min-height: 48px;
-            font-family: inherit;
         }
         
         .input-field:focus {
             outline: none;
-            border-color: #0A0A0A;
+            border-color: #3b82f6;
             background: white;
-            box-shadow: 0 0 0 3px rgba(0,0,0,0.05);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
         }
         
         .btn-primary {
             width: 100%;
-            padding: 14px;
-            background: #0A0A0A;
+            padding: clamp(12px, 3vw, 16px);
+            background: #000;
             color: white;
             border-radius: 12px;
             font-weight: 600;
-            font-size: 15px;
+            font-size: clamp(14px, 4vw, 16px);
             cursor: pointer;
-            transition: all 0.15s;
+            transition: transform 0.1s;
             margin-top: 8px;
             border: none;
             min-height: 48px;
-            font-family: inherit;
-        }
-        
-        .btn-primary:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
         }
         
         .btn-primary:active {
@@ -131,12 +121,12 @@
         
         .btn-google {
             width: 100%;
-            padding: 14px;
+            padding: clamp(12px, 3vw, 16px);
             background: white;
-            border: 1.5px solid #E5E7EB;
+            border: 1.5px solid #e5e7eb;
             border-radius: 12px;
             font-weight: 500;
-            font-size: 15px;
+            font-size: clamp(14px, 4vw, 16px);
             cursor: pointer;
             display: flex;
             align-items: center;
@@ -145,21 +135,19 @@
             transition: all 0.2s;
             margin-bottom: 16px;
             min-height: 48px;
-            font-family: inherit;
         }
         
         .btn-google:hover {
-            background: #FAFAFA;
-            border-color: #D1D5DB;
+            background: #fafafa;
+            border-color: #d1d5db;
         }
         
         .divider {
             display: flex;
             align-items: center;
             margin: 20px 0;
-            color: #9CA3AF;
-            font-size: 13px;
-            font-weight: 500;
+            color: #9ca3af;
+            font-size: clamp(12px, 3vw, 14px);
         }
         
         .divider::before,
@@ -167,25 +155,27 @@
             content: '';
             flex: 1;
             height: 1px;
-            background: #E5E7EB;
+            background: #e5e7eb;
             margin: 0 12px;
         }
         
-        /* Todo App - Clean Modern Style */
+        /* Todo App */
         .todo-app {
             height: 100vh;
             height: 100dvh;
             display: flex;
             flex-direction: column;
-            background: #F7F6F3;
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
             position: relative;
         }
         
         .app-header {
-            background: #FFFFFF;
-            border-bottom: 1px solid rgba(0,0,0,0.08);
-            padding: 0 28px;
-            height: 64px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+            padding: clamp(12px, 3vw, 20px);
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -195,105 +185,80 @@
             flex-shrink: 0;
         }
         
-        .logo-section {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        
-        .logo-img {
-            width: 28px;
-            height: 28px;
-            border-radius: 6px;
-            object-fit: cover;
-        }
-        
-        .logo-text {
-            font-weight: 600;
-            letter-spacing: 0.15em;
-            font-size: 14px;
-            color: #0A0A0A;
-        }
-        
         .main-content {
             flex: 1;
             display: flex;
             overflow: hidden;
             position: relative;
-            max-width: 1080px;
-            margin: 0 auto;
-            width: 100%;
-            padding: 32px 28px;
-            gap: 28px;
-            align-items: flex-start;
         }
         
         .todo-section {
             flex: 1;
-            min-width: 0;
+            padding: clamp(12px, 3vw, 24px);
             overflow-y: auto;
-            padding-right: 8px;
+            background: rgba(255,255,255,0.85);
+            -webkit-overflow-scrolling: touch;
         }
         
         .calendar-section {
-            width: 280px;
+            width: clamp(280px, 30vw, 350px);
+            background: rgba(255,255,255,0.95);
+            border-left: 1px solid rgba(0,0,0,0.05);
+            padding: clamp(16px, 3vw, 24px);
+            overflow-y: auto;
             flex-shrink: 0;
-            display: flex;
-            flex-direction: column;
-            gap: 14px;
         }
         
-        @media (max-width: 900px) {
+        @media (max-width: 768px) {
             .main-content {
                 flex-direction: column;
-                padding: 20px;
             }
             
             .calendar-section {
                 width: 100%;
+                border-left: none;
+                border-top: 1px solid rgba(0,0,0,0.05);
+                padding: 12px;
+                max-height: 40vh;
                 order: -1;
-                flex-direction: row;
-                overflow-x: auto;
             }
         }
         
-        /* Modern Task Cards */
         .task-card {
-            background: #FFFFFF;
-            border-radius: 12px;
-            padding: 12px 14px;
-            margin-bottom: 8px;
+            background: white;
+            border-radius: 16px;
+            padding: clamp(12px, 3vw, 16px);
+            margin-bottom: 12px;
             display: flex;
             align-items: center;
             gap: 12px;
-            border: 1px solid rgba(0,0,0,0.06);
-            transition: all 0.15s;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+            transition: all 0.2s;
+            border: 1px solid rgba(0,0,0,0.03);
             position: relative;
         }
         
         .task-card:hover {
-            background: #FAFAFA;
-            transform: translateY(-1px);
-            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
         }
         
         .checkbox {
-            width: 20px;
-            height: 20px;
-            border: 1.5px solid #D1D5DB;
+            width: clamp(20px, 5vw, 24px);
+            height: clamp(20px, 5vw, 24px);
+            border: 2px solid #d1d5db;
             border-radius: 50%;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
             flex-shrink: 0;
-            transition: all 0.15s;
-            background: transparent;
+            transition: all 0.2s;
         }
         
         .checkbox.checked {
-            background: #16A34A;
-            border-color: #16A34A;
+            background: #10b981;
+            border-color: #10b981;
         }
         
         .checkbox.checked::after {
@@ -306,131 +271,54 @@
             margin-bottom: 2px;
         }
         
-        .task-title {
-            flex: 1;
-            font-size: 14px;
-            line-height: 1.5;
-            font-weight: 400;
-            min-width: 0;
-            word-break: break-word;
-        }
-        
-        .task-title.completed {
-            color: #78756F;
-            text-decoration: line-through;
-        }
-        
-        .task-date {
-            font-size: 12px;
-            color: #9CA3AF;
-            margin-top: 2px;
-        }
-        
         .add-task-bar {
             display: flex;
-            gap: 10px;
+            gap: 12px;
             margin-bottom: 24px;
+            flex-wrap: wrap;
         }
         
         .add-input {
             flex: 1;
             min-width: 200px;
-            padding: 12px 16px;
-            border: 1px solid rgba(0,0,0,0.08);
-            border-radius: 12px;
-            font-size: 14px;
-            background: #FFFFFF;
-            min-height: 44px;
-            font-family: inherit;
-            transition: all 0.15s;
+            padding: clamp(12px, 3vw, 16px);
+            border: 1.5px solid #e5e7eb;
+            border-radius: 16px;
+            font-size: clamp(14px, 4vw, 16px);
+            background: white;
+            min-height: 48px;
         }
         
         .add-input:focus {
             outline: none;
-            border-color: rgba(0,0,0,0.2);
-            box-shadow: 0 0 0 3px rgba(0,0,0,0.03);
+            border-color: #3b82f6;
         }
         
         .add-btn {
-            width: 44px;
-            height: 44px;
-            background: #0A0A0A;
+            width: clamp(48px, 12vw, 56px);
+            height: clamp(48px, 12vw, 56px);
+            background: #000;
             color: white;
-            border-radius: 12px;
-            font-size: 22px;
+            border-radius: 16px;
+            font-size: 24px;
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            transition: all 0.15s;
+            transition: transform 0.1s;
             border: none;
             flex-shrink: 0;
-            font-weight: 300;
-        }
-        
-        .add-btn:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
         }
         
         .add-btn:active {
             transform: scale(0.95);
         }
         
-        /* Calendar Styling */
-        .calendar-card {
-            background: #FFFFFF;
-            border: 1px solid rgba(0,0,0,0.08);
-            border-radius: 16px;
-            padding: 18px;
-        }
-        
-        .calendar-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 14px;
-        }
-        
-        .calendar-month {
-            font-size: 14px;
-            font-weight: 600;
-            color: #0A0A0A;
-        }
-        
-        .calendar-nav {
-            display: flex;
-            gap: 4px;
-        }
-        
-        .cal-nav-btn {
-            width: 24px;
-            height: 24px;
-            border: 1px solid rgba(0,0,0,0.08);
-            border-radius: 6px;
-            background: transparent;
-            color: #78756F;
-            cursor: pointer;
-            font-size: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-family: inherit;
-        }
-        
         .calendar-grid {
             display: grid;
             grid-template-columns: repeat(7, 1fr);
-            gap: 1px;
-        }
-        
-        .day-label {
-            text-align: center;
-            font-size: 10px;
-            font-weight: 600;
-            color: #78756F;
-            padding: 4px 0;
-            letter-spacing: 0.04em;
+            gap: 4px;
+            margin-top: 16px;
         }
         
         .calendar-day {
@@ -438,136 +326,32 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            border-radius: 8px;
+            border-radius: 10px;
             cursor: pointer;
-            font-size: 12px;
-            font-weight: 400;
-            transition: all 0.12s;
+            font-size: clamp(12px, 3vw, 14px);
+            font-weight: 500;
+            transition: all 0.2s;
             min-height: 32px;
-            border: none;
-            background: transparent;
-            color: #0A0A0A;
-            position: relative;
-            font-family: inherit;
         }
         
         .calendar-day:hover {
-            background: rgba(0,0,0,0.04);
+            background: rgba(0,0,0,0.05);
         }
         
         .calendar-day.selected {
-            background: #0A0A0A;
-            color: #FFFFFF;
-            font-weight: 600;
+            background: #000;
+            color: white;
         }
         
         .calendar-day.today {
-            color: #3B82F6;
+            color: #3b82f6;
             font-weight: 700;
         }
         
-        .has-task::after {
-            content: '';
-            position: absolute;
-            bottom: 3px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 3px;
-            height: 3px;
-            border-radius: 50%;
-            background: #78756F;
-            opacity: 0.5;
-        }
-        
-        /* Stats Card */
-        .stats-card {
-            background: #FFFFFF;
-            border: 1px solid rgba(0,0,0,0.08);
-            border-radius: 16px;
-            padding: 18px;
-        }
-        
-        .stats-header {
-            font-size: 10px;
-            font-weight: 600;
-            letter-spacing: 0.1em;
-            color: #78756F;
-            text-transform: uppercase;
-            margin-bottom: 14px;
-        }
-        
-        .stats-row {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 14px;
-        }
-        
-        .stat-item {
-            text-align: center;
-        }
-        
-        .stat-value {
-            font-size: 24px;
-            font-weight: 700;
-            line-height: 1;
-            color: #0A0A0A;
-        }
-        
-        .stat-label {
-            font-size: 11px;
-            color: #78756F;
-            margin-top: 4px;
-        }
-        
-        .progress-bar {
-            height: 3px;
-            background: rgba(0,0,0,0.06);
-            border-radius: 2px;
-            overflow: hidden;
-        }
-        
-        .progress-fill {
-            height: 100%;
-            background: #0A0A0A;
-            border-radius: 2px;
-            transition: width 0.4s ease;
-        }
-        
-        .tip-card {
-            background: #0A0A0A;
-            border-radius: 16px;
-            padding: 18px;
-        }
-        
-        .tip-header {
-            font-size: 10px;
-            font-weight: 600;
-            letter-spacing: 0.1em;
-            color: rgba(255,255,255,0.5);
-            text-transform: uppercase;
-            margin-bottom: 8px;
-        }
-        
-        .tip-text {
-            font-size: 13px;
-            color: rgba(255,255,255,0.85);
-            line-height: 1.5;
-            margin: 0;
-        }
-        
-        kbd {
-            background: rgba(255,255,255,0.15);
-            padding: 2px 6px;
-            border-radius: 4px;
-            font-size: 11px;
-            font-family: monospace;
-        }
-        
-        /* Settings Modal - EXACTLY AS REQUESTED */
         .settings-modal {
             position: fixed;
             inset: 0;
-            background: rgba(0,0,0,0.35);
+            background: rgba(0,0,0,0.5);
             backdrop-filter: blur(4px);
             display: flex;
             align-items: center;
@@ -585,7 +369,6 @@
             max-height: 90vh;
             overflow-y: auto;
             animation: scaleIn 0.3s ease;
-            box-shadow: 0 24px 64px rgba(0,0,0,0.18);
         }
         
         @keyframes scaleIn {
@@ -604,31 +387,25 @@
         }
         
         .bg-option.selected {
-            border-color: #3B82F6;
+            border-color: #3b82f6;
             transform: scale(1.05);
         }
         
-        /* Task Actions */
+        /* Task Actions Dropdown */
         .task-actions {
             position: relative;
             display: inline-flex;
             gap: 8px;
             margin-left: auto;
-            opacity: 0;
-            transition: opacity 0.15s;
-        }
-        
-        .task-card:hover .task-actions {
-            opacity: 1;
         }
         
         .task-menu-btn {
             background: none;
             border: none;
             cursor: pointer;
-            padding: 6px;
-            border-radius: 6px;
-            color: #78756F;
+            padding: 8px;
+            border-radius: 8px;
+            color: #6b7280;
             transition: all 0.2s;
             display: flex;
             align-items: center;
@@ -637,7 +414,7 @@
         
         .task-menu-btn:hover {
             background: rgba(0,0,0,0.05);
-            color: #0A0A0A;
+            color: #000;
         }
         
         .task-dropdown {
@@ -648,15 +425,15 @@
             border-radius: 12px;
             box-shadow: 0 10px 40px rgba(0,0,0,0.15);
             border: 1px solid rgba(0,0,0,0.05);
-            min-width: 180px;
+            min-width: 200px;
             z-index: 50;
             overflow: hidden;
             margin-top: 4px;
         }
         
         .task-dropdown-item {
-            padding: 10px 14px;
-            font-size: 13px;
+            padding: 12px 16px;
+            font-size: 14px;
             cursor: pointer;
             transition: all 0.2s;
             display: flex;
@@ -667,19 +444,18 @@
             width: 100%;
             text-align: left;
             color: #374151;
-            font-family: inherit;
         }
         
         .task-dropdown-item:hover {
-            background: #F3F4F6;
+            background: #f3f4f6;
         }
         
         .task-dropdown-item.danger {
-            color: #EF4444;
+            color: #ef4444;
         }
         
         .task-dropdown-item.danger:hover {
-            background: #FEF2F2;
+            background: #fef2f2;
         }
         
         /* Celebration Animation */
@@ -716,7 +492,7 @@
             position: absolute;
             font-size: clamp(24px, 8vw, 48px);
             font-weight: 800;
-            color: #10B981;
+            color: #10b981;
             animation: textPop 2s ease-out forwards;
             text-shadow: 0 4px 20px rgba(16, 185, 129, 0.3);
             pointer-events: none;
@@ -745,7 +521,7 @@
         .date-picker-modal {
             position: fixed;
             inset: 0;
-            background: rgba(0,0,0,0.35);
+            background: rgba(0,0,0,0.5);
             backdrop-filter: blur(4px);
             display: flex;
             align-items: center;
@@ -761,13 +537,12 @@
             width: 100%;
             max-width: 320px;
             text-align: center;
-            box-shadow: 0 24px 64px rgba(0,0,0,0.18);
         }
         
         .date-input {
             width: 100%;
             padding: 12px;
-            border: 2px solid #E5E7EB;
+            border: 2px solid #e5e7eb;
             border-radius: 12px;
             font-size: 16px;
             margin: 16px 0;
@@ -776,24 +551,23 @@
         
         .empty-state {
             text-align: center;
-            padding: 64px 20px;
-            color: #78756F;
+            padding: clamp(40px, 10vh, 60px) clamp(20px, 5vw, 40px);
+            color: #9ca3af;
         }
         
         .empty-state-icon {
-            width: 40px;
-            height: 40px;
-            margin: 0 auto 14px;
-            opacity: 0.25;
+            font-size: clamp(36px, 10vw, 48px);
+            margin-bottom: 16px;
+            opacity: 0.5;
         }
         
         .loading-spinner {
             display: inline-block;
             width: 20px;
             height: 20px;
-            border: 3px solid rgba(0,0,0,0.1);
+            border: 3px solid rgba(255,255,255,.3);
             border-radius: 50%;
-            border-top-color: #0A0A0A;
+            border-top-color: currentColor;
             animation: spin 1s ease-in-out infinite;
         }
         
@@ -804,118 +578,132 @@
         /* Navigation Tabs */
         .nav-tabs {
             display: flex;
-            gap: 3px;
+            gap: 8px;
             background: rgba(0,0,0,0.05);
             padding: 4px;
-            border-radius: 10px;
+            border-radius: 12px;
         }
         
         .nav-tab {
-            padding: 6px 18px;
-            border-radius: 8px;
-            font-size: 13px;
+            padding: 8px 16px;
+            border-radius: 10px;
+            font-size: 14px;
             font-weight: 500;
             cursor: pointer;
-            transition: all 0.15s;
+            transition: all 0.2s;
             border: none;
             background: transparent;
-            color: #78756F;
-            font-family: inherit;
-            letter-spacing: 0.03em;
-            text-transform: capitalize;
+            color: #6b7280;
         }
         
         .nav-tab.active {
             background: white;
-            color: #0A0A0A;
-            box-shadow: 0 1px 4px rgba(0,0,0,0.07);
+            color: #000;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
         }
         
-        /* Report View Styles */
-        .report-container {
-            width: 100%;
-            max-width: 660px;
-            margin: 0 auto;
+        /* Report Page Styles */
+        .report-section {
+            flex: 1;
+            padding: clamp(12px, 3vw, 24px);
+            overflow-y: auto;
+            background: rgba(255,255,255,0.85);
+            -webkit-overflow-scrolling: touch;
         }
         
-        .report-header-section {
-            margin-bottom: 32px;
+        .report-card {
+            background: white;
+            border-radius: 16px;
+            padding: clamp(16px, 4vw, 24px);
+            margin-bottom: 16px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+            border: 1px solid rgba(0,0,0,0.03);
         }
         
-        .report-title {
-            font-size: 26px;
-            font-weight: 600;
-            letter-spacing: -0.02em;
-            margin: 0 0 6px;
-            color: #0A0A0A;
+        .report-header {
+            font-size: clamp(18px, 5vw, 24px);
+            font-weight: 700;
+            margin-bottom: 4px;
+            color: #111;
         }
         
-        .report-subtitle {
-            color: #78756F;
-            font-size: 13px;
-            margin: 0;
+        .report-subheader {
+            font-size: clamp(13px, 3.5vw, 14px);
+            color: #6b7280;
+            margin-bottom: 24px;
         }
         
-        .report-stats-grid {
+        .stat-row {
             display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
-            gap: 12px;
-            margin-bottom: 28px;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin-bottom: 24px;
         }
         
-        @media (max-width: 600px) {
-            .report-stats-grid {
+        @media (max-width: 480px) {
+            .stat-row {
                 grid-template-columns: 1fr;
             }
         }
         
-        .report-stat-box {
-            background: white;
-            border: 1px solid rgba(0,0,0,0.08);
-            border-radius: 14px;
-            padding: 20px 16px;
+        .stat-box {
+            background: #f9fafb;
+            border-radius: 12px;
+            padding: clamp(16px, 4vw, 20px);
             text-align: center;
+            border: 1px solid #e5e7eb;
         }
         
-        .report-stat-value {
-            font-size: 32px;
+        .stat-number {
+            font-size: clamp(32px, 8vw, 40px);
             font-weight: 700;
             line-height: 1;
             margin-bottom: 4px;
         }
         
-        .report-stat-label {
-            font-size: 12px;
-            color: #78756F;
+        .stat-label {
+            font-size: clamp(13px, 3.5vw, 14px);
+            color: #6b7280;
             font-weight: 500;
         }
         
-        .report-card {
-            background: white;
-            border: 1px solid rgba(0,0,0,0.08);
-            border-radius: 16px;
-            padding: 20px;
-            margin-bottom: 14px;
+        .progress-bar {
+            background: #e5e7eb;
+            border-radius: 8px;
+            height: 8px;
+            overflow: hidden;
+            margin: 16px 0;
         }
         
-        .report-card-title {
-            font-size: 14px;
+        .progress-fill {
+            height: 100%;
+            background: #000;
+            border-radius: 8px;
+            transition: width 0.5s ease;
+        }
+        
+        .task-list-section {
+            margin-top: 24px;
+        }
+        
+        .task-list-title {
+            font-size: clamp(14px, 4vw, 16px);
             font-weight: 600;
-            color: #0A0A0A;
-            margin-bottom: 14px;
+            margin-bottom: 12px;
             display: flex;
             align-items: center;
             gap: 8px;
+            color: #374151;
         }
         
         .report-task-item {
+            padding: 12px 0;
+            border-bottom: 1px solid #f3f4f6;
+            font-size: clamp(14px, 4vw, 15px);
+            color: #374151;
             display: flex;
             align-items: center;
-            justify-content: space-between;
-            padding: 9px 0;
-            border-bottom: 1px solid rgba(0,0,0,0.06);
-            font-size: 14px;
-            color: #374151;
+            gap: 8px;
         }
         
         .report-task-item:last-child {
@@ -923,40 +711,15 @@
         }
         
         .report-task-item.completed {
-            color: #9CA3AF;
             text-decoration: line-through;
+            color: #9ca3af;
         }
         
         .date-badge {
-            font-size: 11px;
-            color: #9CA3AF;
-            flex-shrink: 0;
-            margin-left: 12px;
-            font-weight: 500;
-        }
-        
-        .section-title {
             font-size: 12px;
-            font-weight: 600;
-            letter-spacing: 0.08em;
-            color: #78756F;
-            text-transform: uppercase;
-            padding: 18px 0 8px;
-        }
-        
-        .page-title {
-            font-size: 22px;
-            font-weight: 600;
-            letter-spacing: -0.02em;
-            margin: 0 0 4px;
-            line-height: 1.2;
-            color: #0A0A0A;
-        }
-        
-        .page-subtitle {
-            margin: 6px 0 0;
-            color: #78756F;
-            font-size: 13px;
+            color: #9ca3af;
+            margin-left: auto;
+            font-weight: 500;
         }
     </style>
 </head>
@@ -992,6 +755,7 @@
             dark: 'linear-gradient(135deg, #1a1a2e 0%, #16213e 100%)'
         };
         
+        // Celebration Component
         const Celebration = ({ show, onComplete }) => {
             useEffect(() => {
                 if (show) {
@@ -1031,7 +795,8 @@
             );
         };
         
-        const WeeklyReport = ({ user }) => {
+        // Weekly Report Page Component
+        const WeeklyReport = ({ user, currentBg }) => {
             const [weekData, setWeekData] = useState({ completed: [], pending: [] });
             const [loading, setLoading] = useState(true);
             
@@ -1077,6 +842,8 @@
                 fetchWeekData();
             }, [user]);
             
+            const isImage = wallpapers[currentBg].startsWith('http');
+            
             const formatDate = (dateStr) => {
                 const date = new Date(dateStr);
                 return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
@@ -1088,13 +855,20 @@
                 weekStart.setDate(today.getDate() - today.getDay());
                 const weekEnd = new Date(weekStart);
                 weekEnd.setDate(weekStart.getDate() + 6);
-                return `${weekStart.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })} – ${weekEnd.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}`;
+                return `${weekStart.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })} - ${weekEnd.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}`;
             };
             
             if (loading) {
                 return (
-                    <div className="report-container" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '400px' }}>
-                        <span className="loading-spinner"></span>
+                    <div className="report-section" style={{
+                        backgroundImage: isImage ? `url(${wallpapers[currentBg]})` : wallpapers[currentBg],
+                        backgroundColor: isImage ? '#000' : 'transparent',
+                        backgroundSize: 'cover',
+                        backgroundPosition: 'center'
+                    }}>
+                        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%' }}>
+                            <span className="loading-spinner" style={{ color: '#000' }}></span>
+                        </div>
                     </div>
                 );
             }
@@ -1103,64 +877,83 @@
             const rate = total > 0 ? Math.round((weekData.completed.length / total) * 100) : 0;
             
             return (
-                <div className="report-container">
-                    <div className="report-header-section">
-                        <h1 className="report-title">Weekly Report</h1>
-                        <p className="report-subtitle">{getWeekRange()}</p>
-                    </div>
-                    
-                    <div className="report-stats-grid">
-                        <div className="report-stat-box">
-                            <div className="report-stat-value" style={{ color: '#16a34a' }}>{weekData.completed.length}</div>
-                            <div className="report-stat-label">Completed</div>
-                        </div>
-                        <div className="report-stat-box">
-                            <div className="report-stat-value" style={{ color: '#ca8a04' }}>{weekData.pending.length}</div>
-                            <div className="report-stat-label">Pending</div>
-                        </div>
-                        <div className="report-stat-box">
-                            <div className="report-stat-value" style={{ color: '#0A0A0A' }}>{rate}%</div>
-                            <div className="report-stat-label">Rate</div>
-                        </div>
-                    </div>
-                    
-                    <div className="report-card">
-                        <div className="report-card-title">
-                            <span style={{ color: '#16a34a' }}>✓</span>
-                            <span>Completed Tasks ({weekData.completed.length})</span>
-                        </div>
-                        {weekData.completed.length === 0 ? (
-                            <p style={{ color: '#9ca3af', fontSize: '14px', margin: 0 }}>No completed tasks yet.</p>
-                        ) : (
-                            weekData.completed.map(task => (
-                                <div key={task.id} className="report-task-item completed">
-                                    <span>{task.title}</span>
-                                    <span className="date-badge">{formatDate(task.date)}</span>
+                <div className="report-section" style={{
+                    backgroundImage: isImage ? `url(${wallpapers[currentBg]})` : wallpapers[currentBg],
+                    backgroundColor: isImage ? '#000' : 'transparent',
+                    backgroundSize: 'cover',
+                    backgroundPosition: 'center',
+                    backgroundAttachment: 'fixed'
+                }}>
+                    <div style={{ maxWidth: '800px', margin: '0 auto' }}>
+                        <div className="report-card">
+                            <div className="report-header">Weekly Report</div>
+                            <div className="report-subheader">{getWeekRange()}</div>
+                            
+                            <div className="stat-row">
+                                <div className="stat-box">
+                                    <div className="stat-number" style={{ color: '#10b981' }}>{weekData.completed.length}</div>
+                                    <div className="stat-label">Completed</div>
                                 </div>
-                            ))
-                        )}
-                    </div>
-                    
-                    <div className="report-card">
-                        <div className="report-card-title">
-                            <span style={{ color: '#ca8a04' }}>○</span>
-                            <span>Pending Tasks ({weekData.pending.length})</span>
-                        </div>
-                        {weekData.pending.length === 0 ? (
-                            <p style={{ color: '#9ca3af', fontSize: '14px', margin: 0 }}>All clear!</p>
-                        ) : (
-                            weekData.pending.map(task => (
-                                <div key={task.id} className="report-task-item">
-                                    <span>{task.title}</span>
-                                    <span className="date-badge">{formatDate(task.date)}</span>
+                                <div className="stat-box">
+                                    <div className="stat-number" style={{ color: '#f59e0b' }}>{weekData.pending.length}</div>
+                                    <div className="stat-label">Pending</div>
                                 </div>
-                            ))
-                        )}
+                            </div>
+                            
+                            <div style={{ marginBottom: '8px', display: 'flex', justifyContent: 'space-between', fontSize: '14px', fontWeight: '500', color: '#374151' }}>
+                                <span>Completion Rate</span>
+                                <span>{rate}%</span>
+                            </div>
+                            <div className="progress-bar">
+                                <div className="progress-fill" style={{ width: `${rate}%` }}></div>
+                            </div>
+                        </div>
+                        
+                        <div className="report-card">
+                            <div className="task-list-section">
+                                <div className="task-list-title">
+                                    <span>✓</span>
+                                    <span>Completed Tasks ({weekData.completed.length})</span>
+                                </div>
+                                {weekData.completed.length === 0 ? (
+                                    <div style={{ color: '#9ca3af', fontSize: '14px', padding: '12px 0' }}>No completed tasks this week</div>
+                                ) : (
+                                    weekData.completed.map(task => (
+                                        <div key={task.id} className="report-task-item completed">
+                                            <span style={{ color: '#10b981' }}>✓</span>
+                                            <span>{task.title}</span>
+                                            <span className="date-badge">{formatDate(task.date)}</span>
+                                        </div>
+                                    ))
+                                )}
+                            </div>
+                        </div>
+                        
+                        <div className="report-card">
+                            <div className="task-list-section">
+                                <div className="task-list-title">
+                                    <span>○</span>
+                                    <span>Pending Tasks ({weekData.pending.length})</span>
+                                </div>
+                                {weekData.pending.length === 0 ? (
+                                    <div style={{ color: '#9ca3af', fontSize: '14px', padding: '12px 0' }}>No pending tasks</div>
+                                ) : (
+                                    weekData.pending.map(task => (
+                                        <div key={task.id} className="report-task-item">
+                                            <span style={{ color: '#f59e0b' }}>○</span>
+                                            <span>{task.title}</span>
+                                            <span className="date-badge">{formatDate(task.date)}</span>
+                                        </div>
+                                    ))
+                                )}
+                            </div>
+                        </div>
                     </div>
                 </div>
             );
         };
         
+        // Task Item Component with Actions
         const TaskItem = ({ todo, onToggle, onDelete, onMove }) => {
             const [showMenu, setShowMenu] = useState(false);
             const menuRef = useRef(null);
@@ -1189,13 +982,20 @@
                         onClick={() => onToggle(todo.id, todo.completed)}
                     />
                     <div style={{ flex: 1, minWidth: 0 }}>
-                        <div className={`task-title ${todo.completed ? 'completed' : ''}`}>
+                        <p style={{
+                            fontWeight: '500',
+                            textDecoration: todo.completed ? 'line-through' : 'none',
+                            color: todo.completed ? '#9ca3af' : '#111',
+                            wordBreak: 'break-word',
+                            fontSize: 'clamp(14px, 4vw, 16px)',
+                            lineHeight: 1.4
+                        }}>
                             {todo.title}
-                        </div>
+                        </p>
                         {todo.date && (
-                            <div className="task-date">
+                            <p style={{ fontSize: '12px', color: '#9ca3af', marginTop: '4px' }}>
                                 {new Date(todo.date).toLocaleDateString()}
-                            </div>
+                            </p>
                         )}
                     </div>
                     
@@ -1203,8 +1003,9 @@
                         <button 
                             className="task-menu-btn"
                             onClick={() => setShowMenu(!showMenu)}
+                            style={{ transform: showMenu ? 'rotate(90deg)' : 'none', transition: 'transform 0.2s' }}
                         >
-                            <svg width="16" height="16" fill="currentColor" viewBox="0 0 20 20">
+                            <svg width="20" height="20" fill="currentColor" viewBox="0 0 20 20">
                                 <path d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z" />
                             </svg>
                         </button>
@@ -1236,6 +1037,7 @@
             );
         };
         
+        // Date Picker Modal
         const DatePickerModal = ({ task, onClose, onConfirm }) => {
             const [selectedDate, setSelectedDate] = useState(task?.date || new Date().toISOString().split('T')[0]);
             
@@ -1244,7 +1046,7 @@
             return (
                 <div className="date-picker-modal" onClick={onClose}>
                     <div className="date-picker-content" onClick={e => e.stopPropagation()}>
-                        <h3 style={{ fontSize: '18px', fontWeight: '600', marginBottom: '8px', color: '#0A0A0A' }}>Move Task</h3>
+                        <h3 style={{ fontSize: '18px', fontWeight: '600', marginBottom: '8px' }}>Move Task</h3>
                         <p style={{ fontSize: '14px', color: '#6b7280', marginBottom: '16px' }}>
                             "{task.title}"
                         </p>
@@ -1263,11 +1065,10 @@
                                     flex: 1,
                                     padding: '12px',
                                     borderRadius: '10px',
-                                    border: '1px solid #E5E7EB',
+                                    border: '1px solid #e5e7eb',
                                     background: 'white',
                                     cursor: 'pointer',
-                                    fontWeight: '500',
-                                    fontSize: '14px'
+                                    fontWeight: '500'
                                 }}
                             >
                                 Cancel
@@ -1282,11 +1083,10 @@
                                     padding: '12px',
                                     borderRadius: '10px',
                                     border: 'none',
-                                    background: '#0A0A0A',
+                                    background: '#000',
                                     color: 'white',
                                     cursor: 'pointer',
-                                    fontWeight: '600',
-                                    fontSize: '14px'
+                                    fontWeight: '600'
                                 }}
                             >
                                 Move
@@ -1340,29 +1140,15 @@
             return (
                 <div className="auth-screen" style={{backgroundImage: `url(${wallpapers.nature})`}}>
                     {showWarning && (
-                        <div style={{
-                            position: 'fixed',
-                            top: '20px',
-                            left: '50%',
-                            transform: 'translateX(-50%)',
-                            background: '#FEF3C7',
-                            color: '#92400E',
-                            padding: '12px 20px',
-                            borderRadius: '8px',
-                            fontSize: '13px',
-                            fontWeight: '500',
-                            zIndex: 100,
-                            boxShadow: '0 4px 12px rgba(0,0,0,0.1)'
-                        }}>
+                        <div className="warning-toast">
                             ⚠️ Google Sign-In requires a web server. Use email for local testing.
                         </div>
                     )}
                     
                     <div className="auth-card">
                         <div style={{textAlign: 'center', marginBottom: '32px'}}>
-                            <img src="image(3).png" alt="SLATE" style={{width: 48, height: 48, marginBottom: 16, borderRadius: 12}} />
-                            <h1 style={{fontSize: '24px', fontWeight: '700', marginBottom: '8px', color: '#0A0A0A'}}>SLATE</h1>
-                            <p style={{color: '#6b7280', fontSize: '15px'}}>{isLogin ? 'Welcome back' : 'Create your account'}</p>
+                            <h1 style={{fontSize: 'clamp(24px, 6vw, 28px)', fontWeight: '700', marginBottom: '8px'}}>SLATE</h1>
+                            <p style={{color: '#6b7280', fontSize: 'clamp(14px, 4vw, 15px)'}}>{isLogin ? 'Welcome back' : 'Create your account'}</p>
                         </div>
                         
                         <button onClick={handleGoogle} className="btn-google">
@@ -1399,11 +1185,11 @@
                             </button>
                         </form>
                         
-                        <p style={{textAlign: 'center', marginTop: '24px', fontSize: '14px', color: '#6b7280'}}>
+                        <p style={{textAlign: 'center', marginTop: '24px', fontSize: 'clamp(13px, 3.5vw, 14px)', color: '#6b7280'}}>
                             {isLogin ? "Don't have an account? " : "Already have an account? "}
                             <button 
                                 onClick={() => setIsLogin(!isLogin)}
-                                style={{background: 'none', border: 'none', color: '#0A0A0A', fontWeight: '600', cursor: 'pointer', fontSize: '14px'}}
+                                style={{background: 'none', border: 'none', color: '#000', fontWeight: '600', cursor: 'pointer'}}
                             >
                                 {isLogin ? 'Sign Up' : 'Sign In'}
                             </button>
@@ -1422,8 +1208,7 @@
             const [fontSize, setFontSize] = useState('medium');
             const [showCelebration, setShowCelebration] = useState(false);
             const [datePickerTask, setDatePickerTask] = useState(null);
-            const [currentView, setCurrentView] = useState('tasks');
-            const [calMonth, setCalMonth] = useState(new Date());
+            const [currentView, setCurrentView] = useState('todo'); // 'todo' or 'report'
             
             useEffect(() => {
                 if (!user) return;
@@ -1480,34 +1265,17 @@
                 await auth.signOut();
             };
             
-            const daysInMonth = new Date(calMonth.getFullYear(), calMonth.getMonth() + 1, 0).getDate();
-            const firstDay = new Date(calMonth.getFullYear(), calMonth.getMonth(), 1).getDay();
+            const daysInMonth = new Date(selectedDate.getFullYear(), selectedDate.getMonth() + 1, 0).getDate();
+            const firstDay = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), 1).getDay();
             const completedCount = todos.filter(t => t.completed).length;
-            const pendingCount = todos.filter(t => !t.completed).length;
-            const completionRate = todos.length ? Math.round((completedCount / todos.length) * 100) : 0;
             
-            const weekStats = () => {
-                let c = 0, tot = 0;
-                const ws = new Date(); 
-                ws.setDate(ws.getDate() - ws.getDay());
-                for (let i = 0; i < 7; i++) {
-                    const d = new Date(ws);
-                    d.setDate(ws.getDate() + i);
-                    const k = d.toISOString().split('T')[0];
-                    const dayTasks = todos.filter(t => t.date === k);
-                    if (dayTasks.length) {
-                        tot += dayTasks.length;
-                        c += dayTasks.filter(x => x.completed).length;
-                    }
-                }
-                return { c, tot, rate: tot ? Math.round((c / tot) * 100) : 0 };
-            };
-            
-            const pending = todos.filter(t => !t.completed);
-            const completed = todos.filter(t => t.completed);
+            const isImage = wallpapers[currentBg].startsWith('http');
             
             return (
-                <div className="todo-app">
+                <div className="todo-app" style={{
+                    backgroundImage: isImage ? `url(${wallpapers[currentBg]})` : wallpapers[currentBg],
+                    backgroundColor: isImage ? '#000' : 'transparent'
+                }}>
                     <Celebration 
                         show={showCelebration} 
                         onComplete={() => setShowCelebration(false)} 
@@ -1522,219 +1290,129 @@
                     )}
                     
                     <div className="app-header">
-                        <div className="logo-section">
-                            <img src="image(3).png" alt="SLATE" className="logo-img" />
-                            <span className="logo-text">SLATE</span>
+                        <div>
+                            <h1 style={{fontSize: 'clamp(18px, 5vw, 20px)', fontWeight: '700'}}>SLATE</h1>
+                            <p style={{fontSize: 'clamp(12px, 3.5vw, 13px)', color: '#6b7280', marginTop: '2px'}}>
+                                {currentView === 'todo' 
+                                    ? selectedDate.toLocaleDateString('en-US', {weekday: 'long', month: 'short', day: 'numeric'})
+                                    : 'Weekly Report'
+                                }
+                            </p>
                         </div>
-                        
-                        <div className="nav-tabs">
-                            <button 
-                                className={`nav-tab ${currentView === 'tasks' ? 'active' : ''}`}
-                                onClick={() => setCurrentView('tasks')}
-                            >
-                                Tasks
-                            </button>
-                            <button 
-                                className={`nav-tab ${currentView === 'report' ? 'active' : ''}`}
-                                onClick={() => setCurrentView('report')}
-                            >
-                                Report
-                            </button>
-                        </div>
-                        
-                        <div style={{display: 'flex', alignItems: 'center', gap: '8px'}}>
-                            <button onClick={() => setShowSettings(true)} style={{
-                                width: '32px', height: '32px', borderRadius: '8px', 
-                                border: '1px solid rgba(0,0,0,0.08)', background: 'transparent',
-                                color: '#78756F', cursor: 'pointer', display: 'flex',
-                                alignItems: 'center', justifyContent: 'center'
-                            }}>
-                                <svg width="14" height="14" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
-                                    <circle cx="12" cy="12" r="3"/>
-                                    <path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 01-2.83 2.83l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/>
+                        <div style={{display: 'flex', alignItems: 'center', gap: '12px'}}>
+                            <div className="nav-tabs">
+                                <button 
+                                    className={`nav-tab ${currentView === 'todo' ? 'active' : ''}`}
+                                    onClick={() => setCurrentView('todo')}
+                                >
+                                    Tasks
+                                </button>
+                                <button 
+                                    className={`nav-tab ${currentView === 'report' ? 'active' : ''}`}
+                                    onClick={() => setCurrentView('report')}
+                                >
+                                    Report
+                                </button>
+                            </div>
+                            <button onClick={() => setShowSettings(true)} style={{padding: '8px', borderRadius: '12px', background: 'none', border: 'none', cursor: 'pointer'}}>
+                                <svg width="24" height="24" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                                    <circle cx="12" cy="12" r="3"/><path d="M12 1v6m0 6v6m4.22-10.22l4.24-4.24M6.34 6.34L2.1 2.1m17.9 9.9h-6m-6 0H2.1m15.12 4.24l4.24 4.24M6.34 17.66l-4.24 4.24"/>
                                 </svg>
                             </button>
-                            <div style={{
-                                width: '32px', height: '32px', borderRadius: '50%', 
-                                background: '#0A0A0A', display: 'flex',
-                                alignItems: 'center', justifyContent: 'center',
-                                color: '#fff', fontSize: '11px', fontWeight: '600',
-                                cursor: 'pointer'
-                            }}>
-                                {user.email ? user.email[0].toUpperCase() : 'U'}
-                            </div>
+                            <button onClick={logout} style={{padding: '8px', borderRadius: '12px', color: '#ef4444', background: 'none', border: 'none', cursor: 'pointer'}}>
+                                <svg width="24" height="24" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                                    <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4m7 14l5-5-5-5m5 5H9"/>
+                                </svg>
+                            </button>
                         </div>
                     </div>
                     
-                    <div className="main-content">
-                        {currentView === 'report' ? (
-                            <WeeklyReport user={user} />
-                        ) : (
-                            <>
-                                <div className="todo-section">
-                                    <div style={{marginBottom: '24px'}}>
-                                        <h1 className="page-title">
-                                            {selectedDate.toLocaleDateString('en-US', {weekday: 'long', month: 'long', day: 'numeric'})}
-                                        </h1>
-                                        <p className="page-subtitle">
-                                            {completedCount} of {todos.length} tasks completed
-                                        </p>
-                                    </div>
-
-                                    {todos.length > 0 && (
-                                        <div style={{marginBottom: '28px'}}>
-                                            <div className="progress-bar">
-                                                <div className="progress-fill" style={{width: `${completionRate}%`}}/>
-                                            </div>
-                                        </div>
-                                    )}
-
-                                    <div className="add-task-bar">
-                                        <input 
-                                            type="text" 
-                                            value={newTask}
-                                            onChange={e => setNewTask(e.target.value)}
-                                            onKeyDown={e => e.key === 'Enter' && addTodo()}
-                                            placeholder="Add a task…"
-                                            className="add-input"
-                                        />
-                                        <button onClick={addTodo} className="add-btn">+</button>
-                                    </div>
-
+                    {currentView === 'report' ? (
+                        <WeeklyReport user={user} currentBg={currentBg} />
+                    ) : (
+                        <div className="main-content">
+                            <div className="todo-section">
+                                <div className="add-task-bar">
+                                    <input 
+                                        type="text" 
+                                        value={newTask}
+                                        onChange={e => setNewTask(e.target.value)}
+                                        onKeyDown={e => e.key === 'Enter' && addTodo()}
+                                        placeholder="What needs to be done?"
+                                        className="add-input"
+                                    />
+                                    <button onClick={addTodo} className="add-btn">+</button>
+                                </div>
+                                
+                                <div>
                                     {todos.length === 0 ? (
                                         <div className="empty-state">
-                                            <img src="image(3).png" alt="" className="empty-state-icon" />
-                                            <p style={{fontSize: '15px', fontWeight: '500', margin: '0 0 4px', color: '#0A0A0A'}}>Nothing here yet</p>
-                                            <p style={{fontSize: '13px', color: '#78756F', margin: 0}}>Add your first task above</p>
+                                            <div className="empty-state-icon">📝</div>
+                                            <p style={{fontSize: 'clamp(16px, 5vw, 18px)', fontWeight: '500', color: '#6b7280'}}>No tasks for this day</p>
+                                            <p style={{fontSize: 'clamp(13px, 4vw, 14px)', marginTop: '8px', color: '#9ca3af'}}>Add one above to get started</p>
                                         </div>
                                     ) : (
-                                        <div>
-                                            {pending.map(todo => (
-                                                <TaskItem
-                                                    key={todo.id}
-                                                    todo={todo}
-                                                    onToggle={toggleTodo}
-                                                    onDelete={deleteTodo}
-                                                    onMove={moveTodo}
-                                                />
-                                            ))}
-                                            {completed.length > 0 && (
-                                                <>
-                                                    <div className="section-title">Completed</div>
-                                                    {completed.map(todo => (
-                                                        <TaskItem
-                                                            key={todo.id}
-                                                            todo={todo}
-                                                            onToggle={toggleTodo}
-                                                            onDelete={deleteTodo}
-                                                            onMove={moveTodo}
-                                                        />
-                                                    ))}
-                                                </>
-                                            )}
-                                        </div>
+                                        todos.map(todo => (
+                                            <TaskItem
+                                                key={todo.id}
+                                                todo={todo}
+                                                onToggle={toggleTodo}
+                                                onDelete={deleteTodo}
+                                                onMove={moveTodo}
+                                            />
+                                        ))
                                     )}
                                 </div>
-
-                                <div className="calendar-section">
-                                    <div className="calendar-card">
-                                        <div className="calendar-header">
-                                            <span className="calendar-month">
-                                                {calMonth.toLocaleDateString('en-US', {month: 'short', year: 'numeric'})}
-                                            </span>
-                                            <div className="calendar-nav">
-                                                <button className="cal-nav-btn" onClick={() => {
-                                                    const n = new Date(calMonth);
-                                                    n.setMonth(n.getMonth() - 1);
-                                                    setCalMonth(n);
-                                                }}>‹</button>
-                                                <button className="cal-nav-btn" onClick={() => {
-                                                    const n = new Date(calMonth);
-                                                    n.setMonth(n.getMonth() + 1);
-                                                    setCalMonth(n);
-                                                }}>›</button>
-                                            </div>
-                                        </div>
-                                        
-                                        <div className="calendar-grid" style={{marginBottom: '4px'}}>
-                                            {['S','M','T','W','T','F','S'].map((d, i) => (
-                                                <div key={i} className="day-label">{d}</div>
-                                            ))}
-                                        </div>
-                                        
-                                        <div className="calendar-grid">
-                                            {Array.from({length: firstDay}).map((_, i) => <div key={`e${i}`} />)}
-                                            {Array.from({length: daysInMonth}).map((_, i) => {
-                                                const day = i + 1;
-                                                const d = new Date(calMonth.getFullYear(), calMonth.getMonth(), day);
-                                                const k = d.toISOString().split('T')[0];
-                                                const isToday = k === new Date().toISOString().split('T')[0];
-                                                const isSelected = k === selectedDate.toISOString().split('T')[0];
-                                                const hasTasks = todos.some(t => t.date === k);
-                                                
-                                                return (
-                                                    <button 
-                                                        key={day}
-                                                        className={`calendar-day ${isSelected ? 'selected' : ''} ${isToday ? 'today' : ''} ${hasTasks ? 'has-task' : ''}`}
-                                                        onClick={() => setSelectedDate(d)}
-                                                    >
-                                                        {day}
-                                                    </button>
-                                                );
-                                            })}
-                                        </div>
-                                    </div>
-
-                                    <div className="stats-card">
-                                        <div className="stats-header">This Week</div>
-                                        {(() => {
-                                            const s = weekStats();
-                                            return (
-                                                <>
-                                                    <div className="stats-row">
-                                                        <div className="stat-item">
-                                                            <div className="stat-value" style={{color: '#16a34a'}}>{s.c}</div>
-                                                            <div className="stat-label">Done</div>
-                                                        </div>
-                                                        <div className="stat-item">
-                                                            <div className="stat-value" style={{color: '#ca8a04'}}>{s.tot - s.c}</div>
-                                                            <div className="stat-label">Left</div>
-                                                        </div>
-                                                        <div className="stat-item">
-                                                            <div className="stat-value">{s.rate}%</div>
-                                                            <div className="stat-label">Rate</div>
-                                                        </div>
-                                                    </div>
-                                                    <div className="progress-bar">
-                                                        <div className="progress-fill" style={{width: `${s.rate}%`}}/>
-                                                    </div>
-                                                </>
-                                            );
-                                        })()}
-                                    </div>
-
-                                    <div className="tip-card">
-                                        <div className="tip-header">Pro tip</div>
-                                        <p className="tip-text">
-                                            Press <kbd>Enter</kbd> to quickly add tasks without clicking the button.
-                                        </p>
-                                    </div>
+                                
+                                {todos.length > 0 && (
+                                    <p style={{textAlign: 'center', marginTop: '24px', fontSize: 'clamp(13px, 4vw, 14px)', color: '#6b7280'}}>
+                                        {completedCount} of {todos.length} completed
+                                    </p>
+                                )}
+                            </div>
+                            
+                            <div className="calendar-section">
+                                <h3 style={{fontWeight: '600', marginBottom: '16px', fontSize: 'clamp(16px, 4vw, 18px)'}}>
+                                    {selectedDate.toLocaleDateString('en-US', {month: 'long', year: 'numeric'})}
+                                </h3>
+                                
+                                <div style={{display: 'grid', gridTemplateColumns: 'repeat(7, 1fr)', gap: '4px', marginBottom: '8px'}}>
+                                    {['S','M','T','W','T','F','S'].map(d => (
+                                        <div key={d} style={{textAlign: 'center', fontSize: 'clamp(11px, 3vw, 12px)', fontWeight: '600', color: '#9ca3af', padding: '8px'}}>{d}</div>
+                                    ))}
                                 </div>
-                            </>
-                        )}
-                    </div>
+                                
+                                <div className="calendar-grid">
+                                    {Array.from({length: firstDay}).map((_, i) => <div key={i} />)}
+                                    {Array.from({length: daysInMonth}).map((_, i) => {
+                                        const day = i + 1;
+                                        const isToday = day === new Date().getDate() && selectedDate.getMonth() === new Date().getMonth() && selectedDate.getFullYear() === new Date().getFullYear();
+                                        const isSelected = day === selectedDate.getDate();
+                                        return (
+                                            <div 
+                                                key={day}
+                                                className={`calendar-day ${isSelected ? 'selected' : ''} ${isToday ? 'today' : ''}`}
+                                                onClick={() => setSelectedDate(new Date(selectedDate.getFullYear(), selectedDate.getMonth(), day))}
+                                            >
+                                                {day}
+                                            </div>
+                                        );
+                                    })}
+                                </div>
+                            </div>
+                        </div>
+                    )}
                     
-                    {/* Settings Modal - EXACTLY AS REQUESTED (Original Style) */}
                     {showSettings && (
                         <div className="settings-modal" onClick={() => setShowSettings(false)}>
                             <div className="settings-card" onClick={e => e.stopPropagation()}>
                                 <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px'}}>
-                                    <h2 style={{fontSize: '20px', fontWeight: '700', color: '#0A0A0A'}}>Settings</h2>
+                                    <h2 style={{fontSize: 'clamp(18px, 5vw, 20px)', fontWeight: '700'}}>Settings</h2>
                                     <button onClick={() => setShowSettings(false)} style={{fontSize: '24px', color: '#6b7280', background: 'none', border: 'none', cursor: 'pointer'}}>×</button>
                                 </div>
                                 
                                 <div style={{marginBottom: '24px'}}>
-                                    <label style={{display: 'block', fontSize: '14px', fontWeight: '600', marginBottom: '12px', color: '#374151'}}>Font Size</label>
+                                    <label style={{display: 'block', fontSize: 'clamp(13px, 4vw, 14px)', fontWeight: '600', marginBottom: '12px', color: '#374151'}}>Font Size</label>
                                     <div style={{display: 'flex', gap: '8px'}}>
                                         {['small', 'medium', 'large'].map(size => (
                                             <button
@@ -1744,14 +1422,13 @@
                                                     flex: 1,
                                                     padding: '12px',
                                                     borderRadius: '12px',
-                                                    border: '1.5px solid ' + (fontSize === size ? '#0A0A0A' : '#E5E7EB'),
-                                                    background: fontSize === size ? '#0A0A0A' : 'white',
+                                                    border: '1.5px solid ' + (fontSize === size ? '#000' : '#e5e7eb'),
+                                                    background: fontSize === size ? '#000' : 'white',
                                                     color: fontSize === size ? 'white' : '#374151',
                                                     fontWeight: '500',
                                                     textTransform: 'capitalize',
                                                     cursor: 'pointer',
-                                                    fontSize: '14px',
-                                                    fontFamily: 'inherit'
+                                                    fontSize: 'clamp(13px, 4vw, 14px)'
                                                 }}
                                             >
                                                 {size}
@@ -1761,7 +1438,7 @@
                                 </div>
                                 
                                 <div>
-                                    <label style={{display: 'block', fontSize: '14px', fontWeight: '600', marginBottom: '12px', color: '#374151'}}>Wallpaper</label>
+                                    <label style={{display: 'block', fontSize: 'clamp(13px, 4vw, 14px)', fontWeight: '600', marginBottom: '12px', color: '#374151'}}>Wallpaper</label>
                                     <div style={{display: 'flex', flexWrap: 'wrap', gap: '12px'}}>
                                         {Object.entries(wallpapers).map(([name, url]) => (
                                             <button
