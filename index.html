@@ -391,93 +391,6 @@
             transform: scale(1.05);
         }
         
-        /* Weekly Recap Section */
-        .weekly-recap {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            border-radius: 20px;
-            padding: clamp(20px, 5vw, 28px);
-            margin-bottom: 24px;
-            color: white;
-            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
-        }
-        
-        .recap-header {
-            font-size: clamp(18px, 5vw, 24px);
-            font-weight: 700;
-            margin-bottom: 20px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        
-        .recap-stats {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 16px;
-            margin-bottom: 20px;
-        }
-        
-        .recap-stat-box {
-            background: rgba(255,255,255,0.15);
-            backdrop-filter: blur(10px);
-            border-radius: 16px;
-            padding: clamp(16px, 4vw, 20px);
-            text-align: center;
-            border: 1px solid rgba(255,255,255,0.2);
-        }
-        
-        .recap-number {
-            font-size: clamp(28px, 8vw, 36px);
-            font-weight: 800;
-            line-height: 1;
-            margin-bottom: 4px;
-        }
-        
-        .recap-label {
-            font-size: clamp(12px, 3vw, 14px);
-            opacity: 0.9;
-        }
-        
-        .recap-lists {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 16px;
-        }
-        
-        @media (max-width: 640px) {
-            .recap-lists {
-                grid-template-columns: 1fr;
-            }
-        }
-        
-        .recap-list {
-            background: rgba(255,255,255,0.1);
-            border-radius: 12px;
-            padding: 16px;
-            max-height: 200px;
-            overflow-y: auto;
-        }
-        
-        .recap-list h4 {
-            font-size: clamp(14px, 4vw, 16px);
-            margin-bottom: 12px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        
-        .recap-item {
-            font-size: clamp(12px, 3vw, 14px);
-            padding: 8px 0;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-            opacity: 0.95;
-            line-height: 1.4;
-        }
-        
-        .recap-item:last-child {
-            border-bottom: none;
-        }
-        
         /* Task Actions Dropdown */
         .task-actions {
             position: relative;
@@ -661,6 +574,153 @@
         @keyframes spin {
             to { transform: rotate(360deg); }
         }
+        
+        /* Navigation Tabs */
+        .nav-tabs {
+            display: flex;
+            gap: 8px;
+            background: rgba(0,0,0,0.05);
+            padding: 4px;
+            border-radius: 12px;
+        }
+        
+        .nav-tab {
+            padding: 8px 16px;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: none;
+            background: transparent;
+            color: #6b7280;
+        }
+        
+        .nav-tab.active {
+            background: white;
+            color: #000;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+        
+        /* Report Page Styles */
+        .report-section {
+            flex: 1;
+            padding: clamp(12px, 3vw, 24px);
+            overflow-y: auto;
+            background: rgba(255,255,255,0.85);
+            -webkit-overflow-scrolling: touch;
+        }
+        
+        .report-card {
+            background: white;
+            border-radius: 16px;
+            padding: clamp(16px, 4vw, 24px);
+            margin-bottom: 16px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+            border: 1px solid rgba(0,0,0,0.03);
+        }
+        
+        .report-header {
+            font-size: clamp(18px, 5vw, 24px);
+            font-weight: 700;
+            margin-bottom: 4px;
+            color: #111;
+        }
+        
+        .report-subheader {
+            font-size: clamp(13px, 3.5vw, 14px);
+            color: #6b7280;
+            margin-bottom: 24px;
+        }
+        
+        .stat-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+        
+        @media (max-width: 480px) {
+            .stat-row {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .stat-box {
+            background: #f9fafb;
+            border-radius: 12px;
+            padding: clamp(16px, 4vw, 20px);
+            text-align: center;
+            border: 1px solid #e5e7eb;
+        }
+        
+        .stat-number {
+            font-size: clamp(32px, 8vw, 40px);
+            font-weight: 700;
+            line-height: 1;
+            margin-bottom: 4px;
+        }
+        
+        .stat-label {
+            font-size: clamp(13px, 3.5vw, 14px);
+            color: #6b7280;
+            font-weight: 500;
+        }
+        
+        .progress-bar {
+            background: #e5e7eb;
+            border-radius: 8px;
+            height: 8px;
+            overflow: hidden;
+            margin: 16px 0;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: #000;
+            border-radius: 8px;
+            transition: width 0.5s ease;
+        }
+        
+        .task-list-section {
+            margin-top: 24px;
+        }
+        
+        .task-list-title {
+            font-size: clamp(14px, 4vw, 16px);
+            font-weight: 600;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #374151;
+        }
+        
+        .report-task-item {
+            padding: 12px 0;
+            border-bottom: 1px solid #f3f4f6;
+            font-size: clamp(14px, 4vw, 15px);
+            color: #374151;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .report-task-item:last-child {
+            border-bottom: none;
+        }
+        
+        .report-task-item.completed {
+            text-decoration: line-through;
+            color: #9ca3af;
+        }
+        
+        .date-badge {
+            font-size: 12px;
+            color: #9ca3af;
+            margin-left: auto;
+            font-weight: 500;
+        }
     </style>
 </head>
 <body>
@@ -735,8 +795,8 @@
             );
         };
         
-        // Weekly Recap Component
-        const WeeklyRecap = ({ user }) => {
+        // Weekly Report Page Component
+        const WeeklyReport = ({ user, currentBg }) => {
             const [weekData, setWeekData] = useState({ completed: [], pending: [] });
             const [loading, setLoading] = useState(true);
             
@@ -782,83 +842,111 @@
                 fetchWeekData();
             }, [user]);
             
-            if (loading) return <div style={{ textAlign: 'center', padding: '20px' }}><span className="loading-spinner"></span></div>;
+            const isImage = wallpapers[currentBg].startsWith('http');
+            
+            const formatDate = (dateStr) => {
+                const date = new Date(dateStr);
+                return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+            };
+            
+            const getWeekRange = () => {
+                const today = new Date();
+                const weekStart = new Date(today);
+                weekStart.setDate(today.getDate() - today.getDay());
+                const weekEnd = new Date(weekStart);
+                weekEnd.setDate(weekStart.getDate() + 6);
+                return `${weekStart.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })} - ${weekEnd.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}`;
+            };
+            
+            if (loading) {
+                return (
+                    <div className="report-section" style={{
+                        backgroundImage: isImage ? `url(${wallpapers[currentBg]})` : wallpapers[currentBg],
+                        backgroundColor: isImage ? '#000' : 'transparent',
+                        backgroundSize: 'cover',
+                        backgroundPosition: 'center'
+                    }}>
+                        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%' }}>
+                            <span className="loading-spinner" style={{ color: '#000' }}></span>
+                        </div>
+                    </div>
+                );
+            }
             
             const total = weekData.completed.length + weekData.pending.length;
             const rate = total > 0 ? Math.round((weekData.completed.length / total) * 100) : 0;
             
             return (
-                <div className="weekly-recap">
-                    <div className="recap-header">
-                        <span>📊</span>
-                        <span>Weekly Recap</span>
-                    </div>
-                    
-                    <div className="recap-stats">
-                        <div className="recap-stat-box">
-                            <div className="recap-number" style={{ color: '#10b981' }}>{weekData.completed.length}</div>
-                            <div className="recap-label">Completed</div>
-                        </div>
-                        <div className="recap-stat-box">
-                            <div className="recap-number" style={{ color: '#f59e0b' }}>{weekData.pending.length}</div>
-                            <div className="recap-label">Pending</div>
-                        </div>
-                    </div>
-                    
-                    <div style={{ 
-                        background: 'rgba(255,255,255,0.2)', 
-                        borderRadius: '8px', 
-                        height: '8px', 
-                        marginBottom: '20px',
-                        overflow: 'hidden'
-                    }}>
-                        <div style={{
-                            width: `${rate}%`,
-                            height: '100%',
-                            background: 'white',
-                            borderRadius: '8px',
-                            transition: 'width 0.5s ease-out'
-                        }} />
-                    </div>
-                    <div style={{ textAlign: 'center', fontSize: '14px', marginBottom: '16px', opacity: 0.9 }}>
-                        Completion Rate: {rate}%
-                    </div>
-                    
-                    <div className="recap-lists">
-                        <div className="recap-list">
-                            <h4><span>✅</span> Done This Week</h4>
-                            {weekData.completed.length === 0 ? (
-                                <div style={{ fontSize: '13px', opacity: 0.7, padding: '8px 0' }}>No completed tasks yet</div>
-                            ) : (
-                                weekData.completed.slice(0, 5).map(task => (
-                                    <div key={task.id} className="recap-item" style={{ textDecoration: 'line-through', opacity: 0.8 }}>
-                                        {task.title}
-                                    </div>
-                                ))
-                            )}
-                            {weekData.completed.length > 5 && (
-                                <div style={{ fontSize: '12px', opacity: 0.7, marginTop: '8px' }}>
-                                    +{weekData.completed.length - 5} more
+                <div className="report-section" style={{
+                    backgroundImage: isImage ? `url(${wallpapers[currentBg]})` : wallpapers[currentBg],
+                    backgroundColor: isImage ? '#000' : 'transparent',
+                    backgroundSize: 'cover',
+                    backgroundPosition: 'center',
+                    backgroundAttachment: 'fixed'
+                }}>
+                    <div style={{ maxWidth: '800px', margin: '0 auto' }}>
+                        <div className="report-card">
+                            <div className="report-header">Weekly Report</div>
+                            <div className="report-subheader">{getWeekRange()}</div>
+                            
+                            <div className="stat-row">
+                                <div className="stat-box">
+                                    <div className="stat-number" style={{ color: '#10b981' }}>{weekData.completed.length}</div>
+                                    <div className="stat-label">Completed</div>
                                 </div>
-                            )}
+                                <div className="stat-box">
+                                    <div className="stat-number" style={{ color: '#f59e0b' }}>{weekData.pending.length}</div>
+                                    <div className="stat-label">Pending</div>
+                                </div>
+                            </div>
+                            
+                            <div style={{ marginBottom: '8px', display: 'flex', justifyContent: 'space-between', fontSize: '14px', fontWeight: '500', color: '#374151' }}>
+                                <span>Completion Rate</span>
+                                <span>{rate}%</span>
+                            </div>
+                            <div className="progress-bar">
+                                <div className="progress-fill" style={{ width: `${rate}%` }}></div>
+                            </div>
                         </div>
                         
-                        <div className="recap-list">
-                            <h4><span>⏳</span> Still To Do</h4>
-                            {weekData.pending.length === 0 ? (
-                                <div style={{ fontSize: '13px', opacity: 0.7, padding: '8px 0' }}>All caught up! 🎉</div>
-                            ) : (
-                                weekData.pending.slice(0, 5).map(task => (
-                                    <div key={task.id} className="recap-item">
-                                        {task.title}
-                                    </div>
-                                ))
-                            )}
-                            {weekData.pending.length > 5 && (
-                                <div style={{ fontSize: '12px', opacity: 0.7, marginTop: '8px' }}>
-                                    +{weekData.pending.length - 5} more
+                        <div className="report-card">
+                            <div className="task-list-section">
+                                <div className="task-list-title">
+                                    <span>✓</span>
+                                    <span>Completed Tasks ({weekData.completed.length})</span>
                                 </div>
-                            )}
+                                {weekData.completed.length === 0 ? (
+                                    <div style={{ color: '#9ca3af', fontSize: '14px', padding: '12px 0' }}>No completed tasks this week</div>
+                                ) : (
+                                    weekData.completed.map(task => (
+                                        <div key={task.id} className="report-task-item completed">
+                                            <span style={{ color: '#10b981' }}>✓</span>
+                                            <span>{task.title}</span>
+                                            <span className="date-badge">{formatDate(task.date)}</span>
+                                        </div>
+                                    ))
+                                )}
+                            </div>
+                        </div>
+                        
+                        <div className="report-card">
+                            <div className="task-list-section">
+                                <div className="task-list-title">
+                                    <span>○</span>
+                                    <span>Pending Tasks ({weekData.pending.length})</span>
+                                </div>
+                                {weekData.pending.length === 0 ? (
+                                    <div style={{ color: '#9ca3af', fontSize: '14px', padding: '12px 0' }}>No pending tasks</div>
+                                ) : (
+                                    weekData.pending.map(task => (
+                                        <div key={task.id} className="report-task-item">
+                                            <span style={{ color: '#f59e0b' }}>○</span>
+                                            <span>{task.title}</span>
+                                            <span className="date-badge">{formatDate(task.date)}</span>
+                                        </div>
+                                    ))
+                                )}
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -1120,6 +1208,7 @@
             const [fontSize, setFontSize] = useState('medium');
             const [showCelebration, setShowCelebration] = useState(false);
             const [datePickerTask, setDatePickerTask] = useState(null);
+            const [currentView, setCurrentView] = useState('todo'); // 'todo' or 'report'
             
             useEffect(() => {
                 if (!user) return;
@@ -1204,10 +1293,27 @@
                         <div>
                             <h1 style={{fontSize: 'clamp(18px, 5vw, 20px)', fontWeight: '700'}}>Todo Space</h1>
                             <p style={{fontSize: 'clamp(12px, 3.5vw, 13px)', color: '#6b7280', marginTop: '2px'}}>
-                                {selectedDate.toLocaleDateString('en-US', {weekday: 'long', month: 'short', day: 'numeric'})}
+                                {currentView === 'todo' 
+                                    ? selectedDate.toLocaleDateString('en-US', {weekday: 'long', month: 'short', day: 'numeric'})
+                                    : 'Weekly Report'
+                                }
                             </p>
                         </div>
-                        <div style={{display: 'flex', gap: '8px'}}>
+                        <div style={{display: 'flex', alignItems: 'center', gap: '12px'}}>
+                            <div className="nav-tabs">
+                                <button 
+                                    className={`nav-tab ${currentView === 'todo' ? 'active' : ''}`}
+                                    onClick={() => setCurrentView('todo')}
+                                >
+                                    Tasks
+                                </button>
+                                <button 
+                                    className={`nav-tab ${currentView === 'report' ? 'active' : ''}`}
+                                    onClick={() => setCurrentView('report')}
+                                >
+                                    Report
+                                </button>
+                            </div>
                             <button onClick={() => setShowSettings(true)} style={{padding: '8px', borderRadius: '12px', background: 'none', border: 'none', cursor: 'pointer'}}>
                                 <svg width="24" height="24" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
                                     <circle cx="12" cy="12" r="3"/><path d="M12 1v6m0 6v6m4.22-10.22l4.24-4.24M6.34 6.34L2.1 2.1m17.9 9.9h-6m-6 0H2.1m15.12 4.24l4.24 4.24M6.34 17.66l-4.24 4.24"/>
@@ -1221,79 +1327,81 @@
                         </div>
                     </div>
                     
-                    <div className="main-content">
-                        <div className="todo-section">
-                            <WeeklyRecap user={user} />
-                            
-                            <div className="add-task-bar">
-                                <input 
-                                    type="text" 
-                                    value={newTask}
-                                    onChange={e => setNewTask(e.target.value)}
-                                    onKeyDown={e => e.key === 'Enter' && addTodo()}
-                                    placeholder="What needs to be done?"
-                                    className="add-input"
-                                />
-                                <button onClick={addTodo} className="add-btn">+</button>
-                            </div>
-                            
-                            <div>
-                                {todos.length === 0 ? (
-                                    <div className="empty-state">
-                                        <div className="empty-state-icon">📝</div>
-                                        <p style={{fontSize: 'clamp(16px, 5vw, 18px)', fontWeight: '500', color: '#6b7280'}}>No tasks for this day</p>
-                                        <p style={{fontSize: 'clamp(13px, 4vw, 14px)', marginTop: '8px', color: '#9ca3af'}}>Add one above to get started</p>
-                                    </div>
-                                ) : (
-                                    todos.map(todo => (
-                                        <TaskItem
-                                            key={todo.id}
-                                            todo={todo}
-                                            onToggle={toggleTodo}
-                                            onDelete={deleteTodo}
-                                            onMove={moveTodo}
-                                        />
-                                    ))
+                    {currentView === 'report' ? (
+                        <WeeklyReport user={user} currentBg={currentBg} />
+                    ) : (
+                        <div className="main-content">
+                            <div className="todo-section">
+                                <div className="add-task-bar">
+                                    <input 
+                                        type="text" 
+                                        value={newTask}
+                                        onChange={e => setNewTask(e.target.value)}
+                                        onKeyDown={e => e.key === 'Enter' && addTodo()}
+                                        placeholder="What needs to be done?"
+                                        className="add-input"
+                                    />
+                                    <button onClick={addTodo} className="add-btn">+</button>
+                                </div>
+                                
+                                <div>
+                                    {todos.length === 0 ? (
+                                        <div className="empty-state">
+                                            <div className="empty-state-icon">📝</div>
+                                            <p style={{fontSize: 'clamp(16px, 5vw, 18px)', fontWeight: '500', color: '#6b7280'}}>No tasks for this day</p>
+                                            <p style={{fontSize: 'clamp(13px, 4vw, 14px)', marginTop: '8px', color: '#9ca3af'}}>Add one above to get started</p>
+                                        </div>
+                                    ) : (
+                                        todos.map(todo => (
+                                            <TaskItem
+                                                key={todo.id}
+                                                todo={todo}
+                                                onToggle={toggleTodo}
+                                                onDelete={deleteTodo}
+                                                onMove={moveTodo}
+                                            />
+                                        ))
+                                    )}
+                                </div>
+                                
+                                {todos.length > 0 && (
+                                    <p style={{textAlign: 'center', marginTop: '24px', fontSize: 'clamp(13px, 4vw, 14px)', color: '#6b7280'}}>
+                                        {completedCount} of {todos.length} completed
+                                    </p>
                                 )}
                             </div>
                             
-                            {todos.length > 0 && (
-                                <p style={{textAlign: 'center', marginTop: '24px', fontSize: 'clamp(13px, 4vw, 14px)', color: '#6b7280'}}>
-                                    {completedCount} of {todos.length} completed
-                                </p>
-                            )}
-                        </div>
-                        
-                        <div className="calendar-section">
-                            <h3 style={{fontWeight: '600', marginBottom: '16px', fontSize: 'clamp(16px, 4vw, 18px)'}}>
-                                {selectedDate.toLocaleDateString('en-US', {month: 'long', year: 'numeric'})}
-                            </h3>
-                            
-                            <div style={{display: 'grid', gridTemplateColumns: 'repeat(7, 1fr)', gap: '4px', marginBottom: '8px'}}>
-                                {['S','M','T','W','T','F','S'].map(d => (
-                                    <div key={d} style={{textAlign: 'center', fontSize: 'clamp(11px, 3vw, 12px)', fontWeight: '600', color: '#9ca3af', padding: '8px'}}>{d}</div>
-                                ))}
-                            </div>
-                            
-                            <div className="calendar-grid">
-                                {Array.from({length: firstDay}).map((_, i) => <div key={i} />)}
-                                {Array.from({length: daysInMonth}).map((_, i) => {
-                                    const day = i + 1;
-                                    const isToday = day === new Date().getDate() && selectedDate.getMonth() === new Date().getMonth() && selectedDate.getFullYear() === new Date().getFullYear();
-                                    const isSelected = day === selectedDate.getDate();
-                                    return (
-                                        <div 
-                                            key={day}
-                                            className={`calendar-day ${isSelected ? 'selected' : ''} ${isToday ? 'today' : ''}`}
-                                            onClick={() => setSelectedDate(new Date(selectedDate.getFullYear(), selectedDate.getMonth(), day))}
-                                        >
-                                            {day}
-                                        </div>
-                                    );
-                                })}
+                            <div className="calendar-section">
+                                <h3 style={{fontWeight: '600', marginBottom: '16px', fontSize: 'clamp(16px, 4vw, 18px)'}}>
+                                    {selectedDate.toLocaleDateString('en-US', {month: 'long', year: 'numeric'})}
+                                </h3>
+                                
+                                <div style={{display: 'grid', gridTemplateColumns: 'repeat(7, 1fr)', gap: '4px', marginBottom: '8px'}}>
+                                    {['S','M','T','W','T','F','S'].map(d => (
+                                        <div key={d} style={{textAlign: 'center', fontSize: 'clamp(11px, 3vw, 12px)', fontWeight: '600', color: '#9ca3af', padding: '8px'}}>{d}</div>
+                                    ))}
+                                </div>
+                                
+                                <div className="calendar-grid">
+                                    {Array.from({length: firstDay}).map((_, i) => <div key={i} />)}
+                                    {Array.from({length: daysInMonth}).map((_, i) => {
+                                        const day = i + 1;
+                                        const isToday = day === new Date().getDate() && selectedDate.getMonth() === new Date().getMonth() && selectedDate.getFullYear() === new Date().getFullYear();
+                                        const isSelected = day === selectedDate.getDate();
+                                        return (
+                                            <div 
+                                                key={day}
+                                                className={`calendar-day ${isSelected ? 'selected' : ''} ${isToday ? 'today' : ''}`}
+                                                onClick={() => setSelectedDate(new Date(selectedDate.getFullYear(), selectedDate.getMonth(), day))}
+                                            >
+                                                {day}
+                                            </div>
+                                        );
+                                    })}
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    )}
                     
                     {showSettings && (
                         <div className="settings-modal" onClick={() => setShowSettings(false)}>
